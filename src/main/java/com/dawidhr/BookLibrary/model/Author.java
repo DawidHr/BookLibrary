@@ -2,16 +2,21 @@ package com.dawidhr.BookLibrary.model;
 
 import jakarta.persistence.*;
 
-@Entity(name = "Author")
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity()
+@Table(name = "Author")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "author_id")
     private Long authorId;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books = new HashSet<>();
 
     public Author() {
     }
@@ -43,5 +48,17 @@ public class Author {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
     }
 }

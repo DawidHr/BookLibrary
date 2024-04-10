@@ -23,53 +23,74 @@ public class Boot implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        prepareAndInsertAuthors();
-        prepareAndInsertBooks();
+        prepareDataForDatabase();
     }
 
-    private void prepareAndInsertBooks() {
-        List<Book> books = prepareListOfBooks();
-        insertBooksToDatabase(books);
-    }
+    private void prepareDataForDatabase() {
 
-    private void insertBooksToDatabase(List<Book> books) {
-        for (Book book : books) {
-            bookRepository.save(book);
-        }
-    }
+        Author author1 = new Author("Andrzej", "Ziemiański");
+        Author author2 = new Author("Williams Chima", "Cinda");
+        Author author3 = new Author("Trudi", "Canavan");
 
-    private List<Book> prepareListOfBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book("Virion. Wyrocznia. Tom 1"));
-        books.add(new Book("Virion. Obława. Tom 2"));
-        books.add(new Book("Virion. Adept. Tom 3"));
-        books.add(new Book("Virion. Szermierz. Tom 4"));
-        books.add(new Book("Virion. Zamek. Szermierz natchniony. Tom 1"));
-        books.add(new Book("Virion. Pustynia. Szermierz natchniony. Tom 2"));
-        books.add(new Book("Virion. Legion. Szermierz natchniony. Tom 3"));
+        Book book1 = new Book("Virion. Wyrocznia. Tom 1");
+        Book book2 = new Book("Virion. Obława. Tom 2");
+        Book book3 = new Book("Virion. Adept. Tom 3");
+        Book book4 = new Book("Virion. Szermierz. Tom 4");
+        Book book5 = new Book("Virion. Zamek. Szermierz natchniony. Tom 1");
+        Book book6 = new Book("Virion. Pustynia. Szermierz natchniony. Tom 2");
+        Book book7 = new Book("Virion. Legion. Szermierz natchniony. Tom 3");
 
-        books.add(new Book("Król Demon. Siedem królestw. Księga 1"));
-        books.add(new Book("Wygnana królowa. Siedem królestw. Księga 2"));
-        books.add(new Book("Karmazynowa korona. Siedem królestw. Księga 4"));
-        return books;
-    }
+        Book book8 = new Book("Król Demon. Siedem królestw. Księga 1");
+        Book book9 = new Book("Wygnana królowa. Siedem królestw. Księga 2");
+        Book book10 = new Book("Karmazynowa korona. Siedem królestw. Księga 4");
 
-    private void prepareAndInsertAuthors() {
-        List<Author> authors = prepareListOfAuthors();
-        insertAuthorsToDatabase(authors);
-    }
+        author1.addBook(book1);
+        author1.addBook(book2);
+        author1.addBook(book3);
+        author1.addBook(book4);
+        author1.addBook(book5);
+        author1.addBook(book6);
+        author1.addBook(book7);
 
-    private List<Author> prepareListOfAuthors() {
+        author2.addBook(book8);
+        author2.addBook(book9);
+        author2.addBook(book10);
+
+        book1.addAuthor(author1);
+        book2.addAuthor(author1);
+        book3.addAuthor(author1);
+        book4.addAuthor(author1);
+        book5.addAuthor(author1);
+        book6.addAuthor(author1);
+        book7.addAuthor(author1);
+
+        book8.addAuthor(author2);
+        book9.addAuthor(author2);
+        book10.addAuthor(author2);
+
         List<Author> authors = new ArrayList<>();
-        authors.add(new Author("Andrzej", "Ziemiański"));
-        authors.add(new Author("Williams Chima", "Cinda"));
-        authors.add(new Author("Trudi", "Canavan"));
-        return authors;
-    }
+        authors.add(author3);
+        authors.add(author2);
+        authors.add(author1);
+        List<Book> books = new ArrayList<>();
+        books.add(book1);
+        books.add(book2);
+        books.add(book3);
+        books.add(book4);
+        books.add(book5);
+        books.add(book6);
+        books.add(book7);
+        books.add(book8);
+        books.add(book9);
+        books.add(book10);
 
-    private void insertAuthorsToDatabase(List<Author> authors) {
         for (Author author : authors) {
             authorRepository.save(author);
         }
+
+        for (Book book : books) {
+            bookRepository.save(book);
+        }
+
     }
 }
