@@ -1,0 +1,5 @@
+sudo docker pull mysql:8.0
+sudo docker run --name db -e MYSQL_ROOT_PASSWORD=test -d -p 3306:3306 mysql:8.0
+sudo docker exec -it db bash
+mysql -uroot -p
+create database test;
