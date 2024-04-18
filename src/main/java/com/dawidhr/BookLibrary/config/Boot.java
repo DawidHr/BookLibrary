@@ -1,9 +1,9 @@
 package com.dawidhr.BookLibrary.config;
 
+import com.dawidhr.BookLibrary.dao.AuthorDAO;
+import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Author;
 import com.dawidhr.BookLibrary.model.Book;
-import com.dawidhr.BookLibrary.repository.AuthorRepository;
-import com.dawidhr.BookLibrary.repository.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +13,12 @@ import java.util.List;
 @Component
 public class Boot implements CommandLineRunner {
 
-    private final AuthorRepository authorRepository;
-    private final BookRepository bookRepository;
+    private final BookDAO bookDAO;
+    private final AuthorDAO authorDAO;
 
-    public Boot(AuthorRepository authorRepository, BookRepository bookRepository) {
-        this.authorRepository = authorRepository;
-        this.bookRepository = bookRepository;
+    public Boot(BookDAO bookDAO, AuthorDAO authorDAO) {
+        this.bookDAO = bookDAO;
+        this.authorDAO = authorDAO;
     }
 
     @Override
@@ -85,12 +85,7 @@ public class Boot implements CommandLineRunner {
         books.add(book10);
 
         for (Author author : authors) {
-            authorRepository.save(author);
+            authorDAO.insertAuthor(author);
         }
-
-        for (Book book : books) {
-            bookRepository.save(book);
-        }
-
     }
 }
