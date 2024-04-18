@@ -8,10 +8,12 @@
         <tr>
             <td>Id</td>
             <td>Tytuł książki</td>
+            <td>Akcje</td>
         </tr>
         <tr th:each="book : ${books}">
             <td th:text="${book.bookId}"></td>
             <td th:text="${book.title}"></td>
+            <td><a href="/book/${book.bookId}">Zobacz więcej</a></td>
         </tr>
     </table>
 </body>

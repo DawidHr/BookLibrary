@@ -1,0 +1,14 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Lista Książek</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Dodawanie książek</h1>
+    <form th:object="${book}" th:action="@{/book/add}" method="post">
+        <label>Title:</label><br>
+        <input type="text" name="title" id="title" value=""><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
