@@ -1,8 +1,8 @@
 package com.dawidhr.BookLibrary.model;
 
-enum BookCategory {
+public enum BookCategory {
     IT,
-    FANATSY,
+    FANTASY,
     HISTORY,
     THRILLER,
     ROMANCE;
