@@ -4,6 +4,8 @@ import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Author;
 import com.dawidhr.BookLibrary.model.Book;
+import com.dawidhr.BookLibrary.model.BookCategory;
+import com.dawidhr.BookLibrary.model.BookStatus;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -32,17 +34,17 @@ public class Boot implements CommandLineRunner {
         Author author2 = new Author("Williams Chima", "Cinda");
         Author author3 = new Author("Trudi", "Canavan");
 
-        Book book1 = new Book("Virion. Wyrocznia. Tom 1");
-        Book book2 = new Book("Virion. Obława. Tom 2");
-        Book book3 = new Book("Virion. Adept. Tom 3");
-        Book book4 = new Book("Virion. Szermierz. Tom 4");
-        Book book5 = new Book("Virion. Zamek. Szermierz natchniony. Tom 1");
-        Book book6 = new Book("Virion. Pustynia. Szermierz natchniony. Tom 2");
-        Book book7 = new Book("Virion. Legion. Szermierz natchniony. Tom 3");
+        Book book1 = new Book("Virion. Wyrocznia. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book2 = new Book("Virion. Obława. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book3 = new Book("Virion. Adept. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book4 = new Book("Virion. Szermierz. Tom 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book5 = new Book("Virion. Zamek. Szermierz natchniony. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book6 = new Book("Virion. Pustynia. Szermierz natchniony. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book7 = new Book("Virion. Legion. Szermierz natchniony. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
 
-        Book book8 = new Book("Król Demon. Siedem królestw. Księga 1");
-        Book book9 = new Book("Wygnana królowa. Siedem królestw. Księga 2");
-        Book book10 = new Book("Karmazynowa korona. Siedem królestw. Księga 4");
+        Book book8 = new Book("Król Demon. Siedem królestw. Księga 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book9 = new Book("Wygnana królowa. Siedem królestw. Księga 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book10 = new Book("Karmazynowa korona. Siedem królestw. Księga 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
 
         author1.addBook(book1);
         author1.addBook(book2);
