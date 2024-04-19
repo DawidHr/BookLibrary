@@ -26,20 +26,19 @@ public class Book {
     private Set<Author> authors = new HashSet<>();
     private String description;
     @Enumerated(EnumType.STRING)
-    private Set<BookCategory> categories = new HashSet<>();
+    private BookCategory category;
     @Enumerated(EnumType.STRING)
     private BookStatus bookStatus;
 
-    public Book(String title) {
+    public Book(String title, String description, BookCategory category, BookStatus bookStatus) {
         this.title = title;
+        this.description = description;
+        this.category = category;
+        this.bookStatus = bookStatus;
     }
 
     public void addAuthor(Author author) {
         this.authors.add(author);
-    }
-
-    public void addCategory(BookCategory category) {
-        this.categories.add(category);
     }
 
 }
