@@ -1,0 +1,11 @@
+name: book_library
+services:
+  libraryDB:
+    image: "mysql:8.0"
+    container_name: "db1"
+    ports:
+      - "7001:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=test"
+    volumes:
+       - "./sql/script.sql:/docker-entrypoint-initdb.d/1.sql"
