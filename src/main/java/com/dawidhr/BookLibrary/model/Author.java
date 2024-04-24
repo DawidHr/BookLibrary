@@ -33,6 +33,7 @@ public class Author {
     private Timestamp creationDate;
     @UpdateTimestamp
     private Timestamp modificationDate;
+    private String imageUrl;
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
