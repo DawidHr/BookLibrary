@@ -4,22 +4,61 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<H1>Informacje o książce</H1>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>Tytuł książki</td>
-        <yd>Autor</yd>
-    </tr>
-    <tr>
-        <td th:text="${book.bookId}"></td>
-        <td th:text="${book.title}"></td>
-        <td>
-            <ul th:each="author : ${book.authors}">
-                <li th:text="${author.firstName} + ' ' + ${author.lastName}"></li>
-            </ul>
-        </td>
-    </tr>
-</table>
+<div id = "book_top_block">
+    <div id="book_image_block">
+        <img th:src ="${book.imageUrl}" style="width: 350px" />
+    </div>
+    <div  id="book_info_block">
+
+        <H1>Informacje o książce</H1>
+        <h3>Tytuł: <p th:text="${book.title}" class="book_info_p"></p></h3>
+        <h3>Kategoria: <p th:text="${book.category}"  class="book_info_p"></p></h3>
+        <h3>Status: <p th:text="${book.bookStatus}"  class="book_info_p"></p></h3>
+        <h3>Autorzy:</h3>
+        <ul th:each="author : ${book.authors}">
+            <li th:text="${author.firstName} + ' ' + ${author.lastName}"></li>
+        </ul>
+    </div>
+</div>
+<div id = "book_bottom_block">
+    <h2>Opis</h2>
+    <p th:text="${book.description}"></p>
+</div>
+<style>
+#book_top_block {
+  width: 100%;
+  margin: 50px 50px;
+  display: block;
+  position: relative;
+}
+
+#book_image_block {
+  width: 400px;
+  position: relative;
+  display: inline-block;
+}
+
+#book_info_block {
+  position: absolute;
+  top: 29px;
+  display: inline-block;
+}
+
+#book_bottom_block {
+  width: 100%;
+  margin: 50px 50px;
+  display: block;
+  position: relative;
+}
+
+.book_info_p {
+  display: inline;
+  font-weight: normal;
+  margin: 0;
+}
+h3 {
+    margin: 10px 0;
+}
+</style>
 </body>
 </html>
