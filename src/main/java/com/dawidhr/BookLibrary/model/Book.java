@@ -24,17 +24,23 @@ public class Book {
     @ManyToMany()
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
+    @Column(name = "description")
     private String description;
     @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     private BookCategory category;
     @Enumerated(EnumType.STRING)
+    @Column(name = "book_status")
     private BookStatus bookStatus;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    public Book(String title, String description, BookCategory category, BookStatus bookStatus) {
+    public Book(String title, String description, BookCategory category, BookStatus bookStatus, String imageUrl) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.bookStatus = bookStatus;
+        this.imageUrl = imageUrl;
     }
 
     public void addAuthor(Author author) {

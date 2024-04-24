@@ -34,17 +34,17 @@ public class Boot implements CommandLineRunner {
         Author author2 = new Author("Williams Chima", "Cinda");
         Author author3 = new Author("Trudi", "Canavan");
 
-        Book book1 = new Book("Virion. Wyrocznia. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book2 = new Book("Virion. Obława. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book3 = new Book("Virion. Adept. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book4 = new Book("Virion. Szermierz. Tom 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book5 = new Book("Virion. Zamek. Szermierz natchniony. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book6 = new Book("Virion. Pustynia. Szermierz natchniony. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book7 = new Book("Virion. Legion. Szermierz natchniony. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book1 = new Book("Virion. Wyrocznia. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "https://i.ytimg.com/vi/zxkwAXVQoKc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDhwIoBMKyJzrxQSznlbC1wq8Qa6g");
+        Book book2 = new Book("Virion. Obława. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2PZATo_BW9VYNF82K5vD4a5sS3W1xfkmc2iVq-z2zw&s");
+        Book book3 = new Book("Virion. Adept. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "https://ecsmedia.pl/c/virion-adept-tom-3-b-iext146705461.jpg");
+        Book book4 = new Book("Virion. Szermierz. Tom 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        Book book5 = new Book("Virion. Zamek. Szermierz natchniony. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        Book book6 = new Book("Virion. Pustynia. Szermierz natchniony. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        Book book7 = new Book("Virion. Legion. Szermierz natchniony. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
 
-        Book book8 = new Book("Król Demon. Siedem królestw. Księga 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book9 = new Book("Wygnana królowa. Siedem królestw. Księga 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
-        Book book10 = new Book("Karmazynowa korona. Siedem królestw. Księga 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE);
+        Book book8 = new Book("Król Demon. Siedem królestw. Księga 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        Book book9 = new Book("Wygnana królowa. Siedem królestw. Księga 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        Book book10 = new Book("Karmazynowa korona. Siedem królestw. Księga 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
 
         author1.addBook(book1);
         author1.addBook(book2);
