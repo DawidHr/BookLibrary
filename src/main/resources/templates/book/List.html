@@ -21,7 +21,9 @@
                 <td th:text="${book.title}"></td>
                 <td th:text="${book.category.name}"></td>
                 <td th:text="${book.bookStatus.name}"></td>
-                <td><a th:href="@{'/book/' + ${book.bookId}}">Zobacz więcej</a></td>
+                <td>
+                    <a th:href="@{'/book/' + ${book.bookId}}"><button type="button" class="btn btn-info">Przeglądaj</button></a>
+                </td>
             </tr>
         </table>
     </div>
