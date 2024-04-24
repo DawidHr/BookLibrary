@@ -1,0 +1,79 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Autor</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id = "author_top_block">
+    <div id="author_image_block">
+        <img th:src ="${author.imageUrl}" style="width: 350px" />
+    </div>
+    <div  id="author_info_block">
+
+        <H1>Informacje o autorze</H1>
+        <h3> <p th:text="${author.firstName}" class="author_info_p"></p> <p th:text="${author.lastName}"  class="author_info_p"></h3>
+        <h3>Książki:</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Tytuł</td>
+                    <td>Kategoria</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${author.books}">
+                    <td>
+                        <p th:text="${book.title}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${book.category}"></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id = "author_bottom_block">
+    <h2>Opis</h2>
+
+</div>
+<style>
+#author_top_block {
+  width: 100%;
+  margin: 50px 50px;
+  display: block;
+  position: relative;
+}
+
+#author_image_block {
+  width: 400px;
+  position: relative;
+  display: inline-block;
+}
+
+#author_info_block {
+  position: absolute;
+  top: 29px;
+  display: inline-block;
+}
+
+#author_bottom_block {
+  width: 100%;
+  margin: 50px 50px;
+  display: block;
+  position: relative;
+}
+
+.author_info_p {
+  display: inline;
+  font-weight: normal;
+  margin: 0;
+}
+h3 {
+    margin: 10px 0;
+}
+</style>
+</body>
+</html>
