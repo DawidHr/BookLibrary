@@ -5,6 +5,7 @@ import com.dawidhr.BookLibrary.repository.AuthorRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class AuthorDAOImpl implements AuthorDAO {
@@ -16,8 +17,8 @@ public class AuthorDAOImpl implements AuthorDAO {
     }
 
     @Override
-    public Author getAuthorById(Long id) {
-        return authorRepository.findById(id).orElse(null);
+    public Optional<Author> getAuthorById(Long id) {
+        return authorRepository.findById(id);
     }
 
     @Override
