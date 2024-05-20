@@ -3,11 +3,11 @@ package com.dawidhr.BookLibrary.controller;
 import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.model.Author;
 import com.dawidhr.BookLibrary.model.Book;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -36,6 +36,21 @@ public class AuthorController {
         } else {
             throw new RuntimeException("Author not found");
         }
+    }
+
+    @GetMapping("/author/add")
+    public String addAuthorForm(Model model) {
+        model.addAttribute("author", new Author());
+        return "author/add.html";
+    }
+
+    @PostMapping("/author/process")
+    public String processAddingAuthor(@Valid @ModelAttribute Author author, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "author/add.html";
+        }
+        authorDAO.insertAuthor(author);
+        return "author/list";
     }
 
 }
