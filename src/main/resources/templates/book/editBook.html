@@ -31,9 +31,9 @@
     </nav>
 </div>
 <div style="width: 80%;margin: auto;">
-    <h1>Dodawanie książek</h1>
+    <h1>Edycja książek</h1>
     <div>
-        <form th:object="${book}" th:action="@{/book/processAddingBook}" method="post">
+        <form th:object="${book}" th:action="@{/book/saveEditBook}" method="post">
             <div style="width: 49%;display: inline-block;padding: 20px;">
                 <label style="margin: 10px auto;">Title:</label><br>
                 <input type="text" name="title" id="title" th:field="${book.title}" value="" style="width: 100%;"><br>
@@ -52,10 +52,11 @@
             </div>
             <div style="width: 100%;display: block;padding: 10px 20px;">
                 <label style="margin: 10px auto;">Description</label><br>
-                <textarea th:field="${book.description}" style="width: 100%; resize:none;"></textarea>
+                <textarea th:field="${book.description}" style="width: 100%; resize:none;" th:text="${book.description}"></textarea>
             </div>
             <div style="margin-top: 50px;">
-                <input type="submit" value="Dodaj" class="btn btn-primary" style="width: 200px; margin: auto; display: block;">
+                <input type="hidden" th:field="${book.bookId}" />
+                <input type="submit" value="Zapisz Zmiany" class="btn btn-primary" style="width: 200px; margin: auto; display: block;">
             </div>
         </form>
     </div>

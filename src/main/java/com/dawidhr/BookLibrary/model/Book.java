@@ -37,7 +37,6 @@ public class Book {
     private BookCategory category;
     @Enumerated(EnumType.STRING)
     @Column(name = "book_status")
-    @NotNull
     private BookStatus bookStatus;
     @Column(name = "image_url")
     private String imageUrl;

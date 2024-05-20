@@ -5,5 +5,8 @@ public enum BookCategory {
     FANTASY,
     HISTORY,
     THRILLER,
-    ROMANCE;
+    ROMANCE,
+    HORROR,
+    SCIENCE_FICTION,
+    ;
 }
