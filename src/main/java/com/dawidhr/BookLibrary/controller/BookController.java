@@ -1,16 +1,22 @@
 package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.model.Book;
+import com.dawidhr.BookLibrary.model.BookCategory;
+import com.dawidhr.BookLibrary.model.BookStatus;
 import com.dawidhr.BookLibrary.repository.BookRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,20 +58,49 @@ public class BookController {
         }
     }
 
+    @GetMapping("/book/{id}/edit")
+    public String editSelectedBook(@PathVariable Long id, Model model) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            model.addAttribute("book",book.get());
+            model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
+            model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
+            return "book/editBook.html";
+        } else {
+            throw new RuntimeException("Book not found");
+        }
+    }
+
+    @PostMapping("book/saveEditBook")
+    public String saveEditBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "book/editBook.html";
+        }
+        bookRepository.save(book);
+        return "book/List.html";
+    }
+
     @GetMapping("book/add")
-    public String addBooks() {
+    public String addBooks(Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
+        model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
         return "book/add.html";
     }
 
-    @PostMapping("/book/add")
-    public void insertBook(Book book) {
+    @PostMapping("/book/processAddingBook")
+    public String processAddingBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "book/add.html";
+        }
         bookRepository.save(book);
+        return "book/List.html";
     }
 
     private void preparePagination(List<Integer> pagination) {
         int bookSize = bookRepository.findAll().size();
         if (bookSize>0) {
-            int pages = (int) Math.ceil(bookSize/BOOK_PER_PAGE);
+            int pages = (int) Math.ceil((double)bookSize/(double)BOOK_PER_PAGE);
             for(int i=0; i < pages; i++) {
                 pagination.add(i);
             }
