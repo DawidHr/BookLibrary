@@ -4,6 +4,7 @@ import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.repository.BookRepository;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    @Transactional
     public void insertBook(Book book) {
         bookRepository.save(book);
     }
