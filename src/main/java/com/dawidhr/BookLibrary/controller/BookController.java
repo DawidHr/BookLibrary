@@ -42,7 +42,8 @@ public class BookController {
         if (parameters.containsKey("page")) {
             page = Integer.valueOf(parameters.get("page")[0]);
         }
-        model.addAttribute("books", bookRepository.findAll(PageRequest.of(page, BOOK_PER_PAGE)));
+
+        model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(page, BOOK_PER_PAGE)));
         preparePagination(pagination);
         model.addAttribute("pagination", pagination);
         return "book/List.html";
@@ -120,7 +121,7 @@ public class BookController {
     }
 
     private void preparePagination(List<Integer> pagination) {
-        int bookSize = bookRepository.findAll().size();
+        long bookSize = bookDAO.countAllAvailableBooks();
         if (bookSize>0) {
             int pages = (int) Math.ceil((double)bookSize/(double)BOOK_PER_PAGE);
             for(int i=0; i < pages; i++) {

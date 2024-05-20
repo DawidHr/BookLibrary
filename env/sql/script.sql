@@ -31,6 +31,7 @@ CREATE TABLE `book` (
   `title` varchar(200) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
+  `is_deleted` bit(1) DEFAULT b\'0\'
   `book_status` enum('AVAILABLE','RESERVED','BORROWED') NOT NULL,
   `category` enum('IT','FANTASY','HISTORY','THRILLER','ROMANCE','HORROR','SCIENCE_FICTION') NOT NULL,
   PRIMARY KEY (`book_id`)

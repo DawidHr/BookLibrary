@@ -12,4 +12,7 @@ public interface BookDAO {
     Page<Book> getAllBooks(Pageable pageable);
     void insertBook(Book book);
     List<Book> findBook(String title);
+    long countAllAvailableBooks();
+    long countAddedBooksInLast30Days();
+    List<Book> getAllAvailableBooks(Pageable pageable);
 }

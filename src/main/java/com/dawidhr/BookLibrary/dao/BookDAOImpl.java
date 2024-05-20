@@ -43,12 +43,35 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<Book> findBook(String title) {
-        System.out.println("Tytuł = "+title);
         TypedQuery<Book> query = entityManagerFactory.createEntityManager().createQuery("""
                 SELECT b FROM Book b WHERE b.title like :title 
                 """, Book.class);
         query.setParameter("title", "%"+title+"%");
-        System.out.println("Tytuł = "+title);
+        return query.getResultList();
+    }
+
+    @Override
+    public long countAllAvailableBooks() {
+        TypedQuery<Long> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT count(b) FROM Book b WHERE b.isDeleted = false
+                """, Long.class);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public long countAddedBooksInLast30Days() {
+        return 0;
+    }
+
+    @Override
+    public List<Book> getAllAvailableBooks(Pageable pageable) {
+        int offset = (int) pageable.getOffset();
+        System.out.println("Offset = "+offset);
+        TypedQuery<Book> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT b FROM Book b WHERE b.isDeleted = False
+                """, Book.class);
+        query.setMaxResults(5);
+        query.setFirstResult(offset);
         return query.getResultList();
     }
 }
