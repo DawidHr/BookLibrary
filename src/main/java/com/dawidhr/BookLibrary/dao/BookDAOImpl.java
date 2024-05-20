@@ -2,6 +2,8 @@ package com.dawidhr.BookLibrary.dao;
 
 import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.repository.BookRepository;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -12,9 +14,11 @@ import java.util.List;
 public class BookDAOImpl implements BookDAO {
 
     private final BookRepository bookRepository;
+    private final EntityManagerFactory entityManagerFactory;
 
-    public BookDAOImpl(BookRepository bookRepository) {
+    public BookDAOImpl(BookRepository bookRepository, EntityManagerFactory entityManagerFactory) {
         this.bookRepository = bookRepository;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
@@ -35,5 +39,16 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public void insertBook(Book book) {
         bookRepository.save(book);
+    }
+
+    @Override
+    public List<Book> findBook(String title) {
+        System.out.println("Tytuł = "+title);
+        TypedQuery<Book> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT b FROM Book b WHERE b.title like :title 
+                """, Book.class);
+        query.setParameter("title", "%"+title+"%");
+        System.out.println("Tytuł = "+title);
+        return query.getResultList();
     }
 }

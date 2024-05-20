@@ -11,4 +11,5 @@ public interface BookDAO {
     List<Book> getAllBooks();
     Page<Book> getAllBooks(Pageable pageable);
     void insertBook(Book book);
+    List<Book> findBook(String title);
 }

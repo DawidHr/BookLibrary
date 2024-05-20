@@ -31,6 +31,12 @@
     </nav>
 </div>
 <div>
+    <form th:action="@{/book/findBook}" method="post">
+        <input type="text" name="bookTitle" />
+        <input type="submit" value="Znajdź">
+    </form>
+</div>
+<div>
     <div>
         <table class="table table-hover">
             <tr>

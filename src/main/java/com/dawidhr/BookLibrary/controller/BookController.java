@@ -1,5 +1,6 @@
 package com.dawidhr.BookLibrary.controller;
 
+import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.model.BookCategory;
 import com.dawidhr.BookLibrary.model.BookStatus;
@@ -25,10 +26,12 @@ import java.util.Optional;
 public class BookController {
 
     private final BookRepository bookRepository;
+    private final BookDAO bookDAO;
     private static final Integer BOOK_PER_PAGE = 5;
 
-    public BookController(BookRepository bookRepository) {
+    public BookController(BookRepository bookRepository, BookDAO bookDAO) {
         this.bookRepository = bookRepository;
+        this.bookDAO = bookDAO;
     }
 
     @GetMapping("/books")
@@ -105,6 +108,14 @@ public class BookController {
             book.setDeleted(true);
             bookRepository.save(book);
         }
+        return "book/List.html";
+    }
+
+    @PostMapping("/book/findBook")
+    public String findBook(Model model, HttpServletRequest request) {
+        String bookTitle = request.getParameter("bookTitle");
+        System.out.println(bookTitle);
+        model.addAttribute("books", bookDAO.findBook(bookTitle));
         return "book/List.html";
     }
 
