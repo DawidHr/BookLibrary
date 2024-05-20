@@ -97,6 +97,17 @@ public class BookController {
         return "book/List.html";
     }
 
+    @GetMapping("/book/{id}/delete")
+    public String processAddingBook(@PathVariable Long id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            book.setDeleted(true);
+            bookRepository.save(book);
+        }
+        return "book/List.html";
+    }
+
     private void preparePagination(List<Integer> pagination) {
         int bookSize = bookRepository.findAll().size();
         if (bookSize>0) {

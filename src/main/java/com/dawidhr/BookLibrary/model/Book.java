@@ -40,6 +40,8 @@ public class Book {
     private BookStatus bookStatus;
     @Column(name = "image_url")
     private String imageUrl;
+    @Column(name = "is_deleted")
+    boolean isDeleted;
 
     public Book(String title, String description, BookCategory category, BookStatus bookStatus, String imageUrl) {
         this.title = title;
@@ -47,6 +49,7 @@ public class Book {
         this.category = category;
         this.bookStatus = bookStatus;
         this.imageUrl = imageUrl;
+        this.isDeleted = false;
     }
 
     public void addAuthor(Author author) {
