@@ -44,6 +44,7 @@
                 <td th:text="${author.lastName}"></td>
                 <td>
                     <a th:href="@{'/author/' + ${author.authorId}}"><button type="button" class="btn btn-info">Przeglądaj</button></a>
+                    <a th:href="@{'/author/' + ${author.authorId} + '/edit'}"><button type="button" class="btn btn-secondary">Edytuj</button></a>
                 </td>
             </tr>
         </table>
@@ -51,11 +52,13 @@
     <div>
         <ul  class="pagination justify-content-center">
             <li class="page-item" th:each="page : ${pagination}">
-                <a class="page-link" th:href="@{'books?page=' + ${page}}" th:text="${page}"></a>
+                <a class="page-link" th:href="@{'authors?page=' + ${page}}" th:text="${page}"></a>
             </li>
         </ul>
     </div>
 </div>
-
+<div>
+    <a type="button" class="btn btn-primary" th:href="@{/author/add}" style="display:block">Dodaj autora</a>
+</div>
 </body>
 </html>

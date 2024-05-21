@@ -1,7 +1,10 @@
 package com.dawidhr.BookLibrary.dao;
 
 import com.dawidhr.BookLibrary.model.Author;
+import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.repository.AuthorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,6 +32,16 @@ public class AuthorDAOImpl implements AuthorDAO {
     @Override
     public void insertAuthor(Author author) {
         authorRepository.save(author);
+    }
+
+    @Override
+    public Page<Author> getAllAuthors(Pageable pageable) {
+        return authorRepository.findAll(pageable);
+    }
+
+    @Override
+    public long count() {
+        return authorRepository.count();
     }
 
 }

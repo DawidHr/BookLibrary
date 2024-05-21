@@ -30,16 +30,18 @@
         </div>
     </nav>
 </div>
-<div>
+<div style="width: 80%;margin: auto;">
     <h1>Dodawanie Autora</h1>
     <form th:object="${author}" th:action="@{/author/process}" method="post">
-        <label>Imię:</label><br>
-        <input type="text" name="firstName" id="firstName" th:field="${author.firstName}" value=""><br>
-        <label>Nazwisko:</label><br>
-        <input type="text" name="lastName" id="lastName" th:field="${author.lastName}" value=""><br>
-        <label>Url zdjęcia:</label><br>
-        <input type="text" name="imageUrl" id="imageUrl" th:field="${author.imageUrl}" value=""><br>
-        <input type="submit" value="Submit">
+        <label  style="margin: 10px auto;">Imię:</label><br>
+        <input type="text" name="firstName" id="firstName" th:field="${author.firstName}" value=""  style="width: 100%;"><br>
+        <label  style="margin: 10px auto;">Nazwisko:</label><br>
+        <input type="text" name="lastName" id="lastName" th:field="${author.lastName}" value=""  style="width: 100%;"><br>
+        <label  style="margin: 10px auto;">Url zdjęcia:</label><br>
+        <input type="text" name="imageUrl" id="imageUrl" th:field="${author.imageUrl}" value=""  style="width: 100%;"><br>
+        <div style="margin-top: 50px;">
+            <input type="submit" value="Dodaj" class="btn btn-primary" style="width: 200px; margin: auto; display: block;">
+        </div>
     </form>
 </div>
 </body>
