@@ -13,4 +13,5 @@ public interface AuthorDAO {
     void insertAuthor(Author author);
     Page<Author> getAllAuthors(Pageable pageable);
     long count();
+    List<Author> findAuthor(String find);
 }

@@ -66,6 +66,13 @@ public class AuthorController {
         return "author/list";
     }
 
+    @PostMapping("/author/findAuthor")
+    public String findAuthor(Model model, HttpServletRequest request) {
+        String searchAuthor = request.getParameter("searchAuthor");
+        model.addAttribute("authors", authorDAO.findAuthor(searchAuthor));
+        return "author/list.html";
+    }
+
     private void preparePagination(List<Long> pagination) {
         long bookSize = authorDAO.count();
         if (bookSize>0) {
