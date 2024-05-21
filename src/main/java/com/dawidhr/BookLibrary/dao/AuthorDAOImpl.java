@@ -1,7 +1,6 @@
 package com.dawidhr.BookLibrary.dao;
 
 import com.dawidhr.BookLibrary.model.Author;
-import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.repository.AuthorRepository;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -9,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +55,15 @@ public class AuthorDAOImpl implements AuthorDAO {
                 """, Author.class);
         query.setParameter("find", "%"+find+"%");
         return query.getResultList();
+    }
+
+    @Override
+    public long countAddedAuthorInLast30Days() {
+        TypedQuery<Long> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT COUNT(b) FROM Author b WHERE b.creationDate > :last30days 
+                """, Long.class);
+        query.setParameter("last30days",new Timestamp(System.currentTimeMillis()).toLocalDateTime().minusMonths(1));
+        return query.getSingleResult();
     }
 
 }

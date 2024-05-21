@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Component
@@ -62,7 +63,11 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public long countAddedBooksInLast30Days() {
-        return 0;
+        TypedQuery<Long> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT count(b) FROM Book b WHERE b.isDeleted = false AND b.creationDate > :last30days 
+                """, Long.class);
+        query.setParameter("last30days",new Timestamp(System.currentTimeMillis()).toLocalDateTime().minusMonths(1));
+        return query.getSingleResult();
     }
 
     @Override

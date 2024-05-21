@@ -7,8 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +45,11 @@ public class Book {
     private String imageUrl;
     @Column(name = "is_deleted")
     boolean isDeleted;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp creationDate;
+    @UpdateTimestamp
+    private Timestamp modificationDate;
 
     public Book(String title, String description, BookCategory category, BookStatus bookStatus, String imageUrl) {
         this.title = title;

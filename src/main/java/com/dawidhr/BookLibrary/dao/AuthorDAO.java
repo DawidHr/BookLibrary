@@ -14,4 +14,5 @@ public interface AuthorDAO {
     Page<Author> getAllAuthors(Pageable pageable);
     long count();
     List<Author> findAuthor(String find);
+    long countAddedAuthorInLast30Days();
 }

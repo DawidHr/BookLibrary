@@ -35,6 +35,26 @@
         <H1>Witam na stronie Biblioteki</H1>
         <p>Zawiera ona listę książek wraz z rejestrem osób wyporzyczających</p>
     </div>
+    <div>
+        <div style="width:49%;display:inline-block;">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Autorzy</h5>
+                    <p class="card-text">Liczba dodanych autorów: <span th:text="${authorStatistic.authorsCount}"></span></p>
+                    <p class="card-text">Liczba dodanych autorów w ciągu 30 dni: <span th:text="${authorStatistic.authorsAddedLast30daysCount}"></span></p>
+                </div>
+            </div>
+        </div>
+        <div  style="width:49%;display:inline-block;">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Książki</h5>
+                    <p class="card-text">Liczba dodanych książek: <span th:text="${bookStatistic.booksCount}"></span></p>
+                    <p class="card-text">Liczba dodanych książek w ciągu 30 dni: <span th:text="${bookStatistic.booksAddedLast30daysCount}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
