@@ -4,6 +4,7 @@ package com.dawidhr.BookLibrary.controller;
 import com.dawidhr.BookLibrary.repository.PersonRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+@Controller
 public class PersonController {
 
     private final PersonRepository personRepository;
@@ -30,7 +31,8 @@ public class PersonController {
         if (parameters.containsKey("page")) {
             page = Integer.valueOf(parameters.get("page")[0]);
         }
-        model.addAttribute("books", personRepository.findAll(PageRequest.of(page, PERSON_PER_PAGE)));
+        model.addAttribute("persons", personRepository.findAll(PageRequest.of(page, PERSON_PER_PAGE)));
+        System.out.println("Ilość osób: "+ personRepository.findAll(PageRequest.of(page, PERSON_PER_PAGE)));
         preparePagination(pagination);
         model.addAttribute("pagination", pagination);
         return "person/list.html";
