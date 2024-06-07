@@ -21,12 +21,13 @@ import java.util.Set;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "author_id")
     private Long authorId;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "authors", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Book> books = new HashSet<>();
     @CreationTimestamp
     @Column(updatable = false)

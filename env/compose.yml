@@ -8,4 +8,5 @@ services:
     environment:
       - "MYSQL_ROOT_PASSWORD=test"
     volumes:
-       - "./sql/script.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./sql/baza.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./sql/:/test/"

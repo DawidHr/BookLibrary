@@ -18,15 +18,9 @@ public class Security {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                );
-
+                .formLogin(form -> form.loginPage("/login").permitAll())
+                .logout((logout) -> logout.logoutSuccessUrl("/logout"))
+                .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
         return http.build();
     }
 

@@ -1,12 +1,18 @@
 package com.dawidhr.BookLibrary.model;
 
 public enum BookCategory {
-    IT,
-    FANTASY,
-    HISTORY,
-    THRILLER,
-    ROMANCE,
+    CRIME,
     HORROR,
-    SCIENCE_FICTION,
-    ;
+    THRILLER,
+    CLASSIC,
+    LOVE,
+    SCIENCE,
+    FANTASY,
+    CHILDREN,
+    BIOGRAPHY,
+    POETRY,
+    COOK_BOOKS,
+    HISTORY,
+    IT,
+    LANGUAGE;
 }
