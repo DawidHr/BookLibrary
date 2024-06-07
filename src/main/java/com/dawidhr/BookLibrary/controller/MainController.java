@@ -26,6 +26,11 @@ public class MainController {
         return "main/index.html";
     }
 
+    @RequestMapping("/login")
+    public String loginAction(Model model) {
+        return "main/login.html";
+    }
+
     private BookDashboard prepareBookStatistic() {
         long booksCount = bookDAO.countAllAvailableBooks();
         long booksAddedLast30DaysCount = bookDAO.countAddedBooksInLast30Days();
