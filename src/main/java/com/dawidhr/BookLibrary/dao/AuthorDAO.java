@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthorDAO {
-    Optional<Author> getAuthorById(Long id);
     List<Author> getAllAuthors();
     void insertAuthor(Author author);
     Page<Author> getAllAuthors(Pageable pageable);
     long count();
     List<Author> findAuthor(String find);
     long countAddedAuthorInLast30Days();
+    Optional<Author> findById(Long id);
 }

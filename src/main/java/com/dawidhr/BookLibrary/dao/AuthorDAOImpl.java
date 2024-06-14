@@ -24,11 +24,6 @@ public class AuthorDAOImpl implements AuthorDAO {
     }
 
     @Override
-    public Optional<Author> getAuthorById(Long id) {
-        return authorRepository.findById(id);
-    }
-
-    @Override
     public List<Author> getAllAuthors() {
         return authorRepository.findAll();
     }
@@ -64,6 +59,11 @@ public class AuthorDAOImpl implements AuthorDAO {
                 """, Long.class);
         query.setParameter("last30days",new Timestamp(System.currentTimeMillis()).toLocalDateTime().minusMonths(1));
         return query.getSingleResult();
+    }
+
+    @Override
+    public Optional<Author> findById(Long id) {
+        return authorRepository.findById(id);
     }
 
 }
