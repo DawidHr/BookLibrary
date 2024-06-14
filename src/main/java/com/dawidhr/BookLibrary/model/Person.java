@@ -1,6 +1,7 @@
 package com.dawidhr.BookLibrary.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -42,6 +43,7 @@ public class Person {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "pesel")
+    @Min(value = 11, message = "Pesel length required 11 chars")
     private Integer pesel;
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
