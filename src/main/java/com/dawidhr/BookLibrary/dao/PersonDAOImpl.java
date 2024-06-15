@@ -41,4 +41,9 @@ public class PersonDAOImpl implements PersonDAO {
     public void update(Person person) {
         personRepository.save(person);
     }
+
+    @Override
+    public int count() {
+        return personRepository.findAll().size();
+    }
 }

@@ -1,7 +1,6 @@
 package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.dao.PersonDAO;
-import com.dawidhr.BookLibrary.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,9 +22,6 @@ class PersonControllerTest {
 
     @Mock
     PersonDAO personDAO;
-
-    @Mock
-    PersonRepository personRepository;
 
     @InjectMocks
     PersonController personController;

@@ -13,4 +13,5 @@ public interface PersonDAO {
     List<Person> getAll();
     Page<Person> getAll(Pageable pageable);
     void update(Person person);
+    int count();
 }

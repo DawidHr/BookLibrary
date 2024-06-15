@@ -3,7 +3,6 @@ package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.dao.PersonDAO;
 import com.dawidhr.BookLibrary.model.Person;
-import com.dawidhr.BookLibrary.repository.PersonRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
@@ -23,12 +22,10 @@ import java.util.Map;
 public class PersonController {
 
     private final PersonDAO personDAO;
-    private final PersonRepository personRepository;
     private static final Integer PERSON_PER_PAGE = 5;
 
-    public PersonController(PersonDAO personDAO, PersonRepository personRepository) {
+    public PersonController(PersonDAO personDAO) {
         this.personDAO = personDAO;
-        this.personRepository = personRepository;
     }
 
     @GetMapping("/persons")
@@ -46,7 +43,7 @@ public class PersonController {
     }
 
     private void preparePagination(List<Integer> pagination) {
-        int bookSize = personRepository.findAll().size();
+        int bookSize = personDAO.count();
         if (bookSize>0) {
             int pages = (int) Math.ceil(bookSize/PERSON_PER_PAGE);
             for(int i=0; i < pages; i++) {
