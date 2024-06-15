@@ -2,6 +2,8 @@ package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Book;
+import com.dawidhr.BookLibrary.model.BookCategory;
+import com.dawidhr.BookLibrary.model.BookStatus;
 import com.dawidhr.BookLibrary.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,6 +63,15 @@ class BookControllerTest {
     }
 
     @Test
+    public void bookSelectedNotFoundTest() throws Exception {
+        Optional<Book> book = Optional.empty();
+        when(bookRepository.findById(any())).thenReturn(book);
+        mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}", 1))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:error.html"));
+    }
+
+    @Test
     public void bookEditTest() throws Exception {
         Optional<Book> book = Optional.of(new Book());
         when(bookRepository.findById(any())).thenReturn(book);
@@ -70,6 +81,63 @@ class BookControllerTest {
                 .andExpect(model().attributeExists("category"))
                 .andExpect(model().attributeExists("status"))
                 .andExpect(view().name("book/editBook.html"));
+    }
+
+    @Test
+    public void bookEditNotFoundBookTest() throws Exception {
+        Optional<Book> book = Optional.empty();
+        when(bookRepository.findById(any())).thenReturn(book);
+        mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}/edit", 1))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:error.html"));
+    }
+
+    @Test
+    public void bookSaveTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/saveEditBook")
+                        .param("title", "Test")
+                        .param("category", BookCategory.FANTASY.name())
+                        .param("bookStatus", BookStatus.AVAILABLE.name()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("book/List.html"));
+    }
+
+    @Test
+    public void bookSaveNotValidTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/saveEditBook")
+                        .param("title", "Test")
+                        .param("bookStatus", BookStatus.AVAILABLE.name()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("book/editBook.html"));
+    }
+
+    @Test
+    public void bookAddTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/book/add"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("book"))
+                .andExpect(model().attributeExists("category"))
+                .andExpect(model().attributeExists("status"))
+                .andExpect(view().name("book/add.html"));
+    }
+
+    @Test
+    public void bookProcessAddingBookTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/processAddingBook")
+                .param("title", "Test")
+                .param("category", BookCategory.FANTASY.name())
+                .param("bookStatus", BookStatus.AVAILABLE.name()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("book/List.html"));
+    }
+
+    @Test
+    public void bookProcessAddingBookNotValidTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/processAddingBook")
+                        .param("title", "Test")
+                        .param("bookStatus", BookStatus.AVAILABLE.name()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("book/add.html"));
     }
 
 }

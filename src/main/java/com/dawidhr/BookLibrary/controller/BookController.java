@@ -58,7 +58,7 @@ public class BookController {
             model.addAttribute("book",book.get());
             return "book/selectedBook.html";
         } else {
-            throw new RuntimeException("Book not found");
+            return "redirect:error.html";
         }
     }
 
@@ -71,7 +71,7 @@ public class BookController {
             model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
             return "book/editBook.html";
         } else {
-            throw new RuntimeException("Book not found");
+            return "redirect:error.html";
         }
     }
 
@@ -84,7 +84,7 @@ public class BookController {
         return "book/List.html";
     }
 
-    @GetMapping("book/add")
+    @GetMapping("/book/add")
     public String addBooks(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
