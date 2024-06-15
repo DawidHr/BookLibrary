@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAOImpl implements BookDAO {
@@ -24,8 +25,8 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElse(null);
+    public Optional<Book> findById(Long id) {
+        return bookRepository.findById(id);
     }
 
     @Override

@@ -25,12 +25,10 @@ import java.util.Optional;
 @Controller
 public class BookController {
 
-    private final BookRepository bookRepository;
     private final BookDAO bookDAO;
     private static final Integer BOOK_PER_PAGE = 5;
 
-    public BookController(BookRepository bookRepository, BookDAO bookDAO) {
-        this.bookRepository = bookRepository;
+    public BookController(BookDAO bookDAO) {
         this.bookDAO = bookDAO;
     }
 
@@ -53,7 +51,7 @@ public class BookController {
 
     @GetMapping("/book/{id}")
     public String getSelectedBook(@PathVariable Long id, Model model) {
-        Optional<Book> book = bookRepository.findById(id);
+        Optional<Book> book = bookDAO.findById(id);
         if (book.isPresent()) {
             model.addAttribute("book",book.get());
             return "book/selectedBook.html";
@@ -64,7 +62,7 @@ public class BookController {
 
     @GetMapping("/book/{id}/edit")
     public String editSelectedBook(@PathVariable Long id, Model model) {
-        Optional<Book> book = bookRepository.findById(id);
+        Optional<Book> book = bookDAO.findById(id);
         if (book.isPresent()) {
             model.addAttribute("book",book.get());
             model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
@@ -80,7 +78,7 @@ public class BookController {
         if (bindingResult.hasErrors()) {
             return "book/editBook.html";
         }
-        bookRepository.save(book);
+        bookDAO.insertBook(book);
         return "book/List.html";
     }
 
@@ -97,17 +95,17 @@ public class BookController {
         if (bindingResult.hasErrors()) {
             return "book/add.html";
         }
-        bookRepository.save(book);
+        bookDAO.insertBook(book);
         return "book/List.html";
     }
 
     @GetMapping("/book/{id}/delete")
     public String processAddingBook(@PathVariable Long id) {
-        Optional<Book> optionalBook = bookRepository.findById(id);
+        Optional<Book> optionalBook = bookDAO.findById(id);
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
             book.setDeleted(true);
-            bookRepository.save(book);
+            bookDAO.insertBook(book);
         }
         return "book/List.html";
     }

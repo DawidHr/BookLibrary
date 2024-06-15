@@ -4,7 +4,6 @@ import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.model.BookCategory;
 import com.dawidhr.BookLibrary.model.BookStatus;
-import com.dawidhr.BookLibrary.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,9 +25,6 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 @SpringBootTest
 class BookControllerTest {
-
-    @Mock
-    BookRepository bookRepository;
 
     @Mock
     BookDAO bookDAO;
@@ -55,7 +51,7 @@ class BookControllerTest {
     @Test
     public void bookSelectedTest() throws Exception {
         Optional<Book> book = Optional.of(new Book());
-        when(bookRepository.findById(any())).thenReturn(book);
+        when(bookDAO.findById(any())).thenReturn(book);
         mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("book"))
@@ -65,7 +61,7 @@ class BookControllerTest {
     @Test
     public void bookSelectedNotFoundTest() throws Exception {
         Optional<Book> book = Optional.empty();
-        when(bookRepository.findById(any())).thenReturn(book);
+        when(bookDAO.findById(any())).thenReturn(book);
         mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}", 1))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:error.html"));
@@ -74,7 +70,7 @@ class BookControllerTest {
     @Test
     public void bookEditTest() throws Exception {
         Optional<Book> book = Optional.of(new Book());
-        when(bookRepository.findById(any())).thenReturn(book);
+        when(bookDAO.findById(any())).thenReturn(book);
         mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}/edit", 1))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("book"))
@@ -86,7 +82,7 @@ class BookControllerTest {
     @Test
     public void bookEditNotFoundBookTest() throws Exception {
         Optional<Book> book = Optional.empty();
-        when(bookRepository.findById(any())).thenReturn(book);
+        when(bookDAO.findById(any())).thenReturn(book);
         mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}/edit", 1))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:error.html"));
