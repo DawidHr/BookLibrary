@@ -9,7 +9,6 @@
 <div th:replace="nav :: nav">
 </div>
 <div class="content">
-
     <div id = "author_top_block">
         <div id="author_image_block">
             <div th:if="${author.imageUrl != null}">
@@ -23,7 +22,7 @@
         <div  id="author_info_block">
 
             <H1>Informacje o autorze</H1>
-            <h3> Author: <p th:text="${author.firstName}" class="author_info_p"></p> <p th:text="${author.lastName}"  class="author_info_p"></h3>
+            <h3> <p th:text="${author.firstName}" class="author_info_p"></p> <p th:text="${author.lastName}"  class="author_info_p"></h3>
             <h3>Książki:</h3>
             <table class="table table-striped">
                 <thead>
@@ -45,6 +44,44 @@
             </table>
         </div>
     </div>
+    <div>
+        <h2>Przypisywanie Książki</h2>
+        <div style="margin: 20px;">
+            <form th:action="@{'/author/'+${author.authorId}+'/edit'}" method="get">
+                <input type="text" name="bookTitle" style="width: 80%;" />
+                <input type="submit" value="Znajdź" style="width: 19%;">
+            </form>
+        </div>
+        <div>
+            <div>
+                <table class="table table-hover">
+                    <tr>
+                        <td>Id</td>
+                        <td>Tytuł książki</td>
+                        <td>Kategoria</td>
+                        <td>Status</td>
+                        <td>Akcje</td>
+                    </tr>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.bookId}"></td>
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.category.name}"></td>
+                        <td th:text="${book.bookStatus.name}"></td>
+                        <td>
+                            <a th:href="@{'/author/'+${author.authorId}+'/book/' + ${book.bookId}+'/add'}"><button type="button" class="btn btn-info">Przypisz</button></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <ul  class="pagination justify-content-center">
+                    <li class="page-item" th:each="page : ${pagination}">
+                        <a class="page-link" th:href="@{'books?page=' + ${page}}" th:text="${page}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div id = "author_bottom_block">
         <h2>Opis</h2>
         <p>
@@ -54,8 +91,6 @@
         </p>
     </div>
 </div>
-
-
 <style>
 .content {
     margin: 2%;
@@ -68,15 +103,16 @@
 }
 
 #author_image_block {
-  width: 400px;
+  width: 30%;
   position: relative;
   display: inline-block;
 }
 
 #author_info_block {
-  position: absolute;
+  position: relative;
   top: 29px;
   display: inline-block;
+  width: 69%;
 }
 
 #author_bottom_block {
