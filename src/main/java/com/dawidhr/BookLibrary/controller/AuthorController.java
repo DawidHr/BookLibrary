@@ -38,8 +38,13 @@ public class AuthorController {
         if (parameters.containsKey("page")) {
             page = Integer.valueOf(parameters.get("page")[0]);
         }
-        model.addAttribute("authors", authorDAO.getAllAuthors(PageRequest.of(page, AUTHOR_PER_PAGE)));
-        preparePagination(pagination);
+        String searchAuthor = request.getParameter("searchAuthor");
+        if (StringUtils.hasText(searchAuthor)) {
+            model.addAttribute("authors", authorDAO.findAuthor(searchAuthor));
+        } else {
+            model.addAttribute("authors", authorDAO.getAllAuthors(PageRequest.of(page, AUTHOR_PER_PAGE)));
+            preparePagination(pagination);
+        }
         model.addAttribute("pagination", pagination);
         return "author/list.html";
     }
@@ -87,13 +92,6 @@ public class AuthorController {
         } else {
             return "redirect:/error.html";
         }
-    }
-
-    @PostMapping("/author/findAuthor")
-    public String findAuthor(Model model, HttpServletRequest request) {
-        String searchAuthor = request.getParameter("searchAuthor");
-        model.addAttribute("authors", authorDAO.findAuthor(searchAuthor));
-        return "author/list.html";
     }
 
     @GetMapping("/author/{authorId}/book/{bookId}/add")

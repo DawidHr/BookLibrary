@@ -10,7 +10,7 @@
 <div th:replace="nav :: nav">
 </div>
 <div style="margin: 20px;">
-    <form th:action="@{/author/findAuthor}" method="post">
+    <form th:action="@{/authors}" method="get">
         <input type="text" name="searchAuthor" style="width: 80%;" />
         <input type="submit" value="Znajdź" style="width: 19%;">
     </form>
