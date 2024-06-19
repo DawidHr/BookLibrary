@@ -1,6 +1,7 @@
 package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.dao.AuthorDAO;
+import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Author;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,8 @@ class AuthorControllerTest {
     @Mock
     AuthorDAO authorDAO;
 
+    @Mock
+    BookDAO bookDAO;
 
     @InjectMocks
     AuthorController authorController;
