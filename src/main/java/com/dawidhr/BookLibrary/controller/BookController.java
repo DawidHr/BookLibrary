@@ -4,12 +4,12 @@ import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.model.BookCategory;
 import com.dawidhr.BookLibrary.model.BookStatus;
-import com.dawidhr.BookLibrary.repository.BookRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,9 +40,14 @@ public class BookController {
         if (parameters.containsKey("page")) {
             page = Integer.valueOf(parameters.get("page")[0]);
         }
+        String bookSearchTitle = request.getParameter("bookTitle");
+        if (StringUtils.hasText(bookSearchTitle)) {
+            model.addAttribute("books", bookDAO.findBook(bookSearchTitle));
+        } else {
+            preparePagination(pagination);
+            model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(page, BOOK_PER_PAGE)));
+        }
 
-        model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(page, BOOK_PER_PAGE)));
-        preparePagination(pagination);
         model.addAttribute("pagination", pagination);
         return "book/List.html";
     }
@@ -107,14 +112,6 @@ public class BookController {
             book.setDeleted(true);
             bookDAO.insertBook(book);
         }
-        return "book/List.html";
-    }
-
-    @PostMapping("/book/findBook")
-    public String findBook(Model model, HttpServletRequest request) {
-        String bookTitle = request.getParameter("bookTitle");
-        System.out.println(bookTitle);
-        model.addAttribute("books", bookDAO.findBook(bookTitle));
         return "book/List.html";
     }
 
