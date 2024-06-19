@@ -25,7 +25,7 @@ public class Boot implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        prepareDataForDatabase();
+       // prepareDataForDatabase();
     }
 
     private void prepareDataForDatabase() {
