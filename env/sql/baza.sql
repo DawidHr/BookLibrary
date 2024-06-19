@@ -112,7 +112,7 @@ CREATE TABLE `person` (
   `date_of_birth` date DEFAULT NULL,
   `pesel` int DEFAULT NULL,
   `creation_date` datetime(6) DEFAULT NULL,
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `person_id` bigint NOT NULL AUTO_INCREMENT,
   `modification_date` datetime(6) DEFAULT NULL,
   `adress_city` varchar(255) DEFAULT NULL,
   `adress_house_number` varchar(255) DEFAULT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE `person` (
   `adress_zip_code` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

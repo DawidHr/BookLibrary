@@ -32,28 +32,52 @@
 <div style="width: 80%;margin: auto;">
     <h1 align="center">Dodawanie osób</h1>
     <div>
-        <form th:object="${person}" th:action="@{/person/ }" method="post">
+        <form th:object="${person}" th:action="@{/person/processAddingPerson}" method="post">
             <div style="width: 49%;display: inline-block;padding: 20px;">
                 <h2>Dane Ogólne</h2>
-                <label style="margin: 10px auto;">Imię:</label><br>
-                <input type="text" name="title" id="firstName" th:field="${person.firstName}" value="" style="width: 100%;"><br>
-                <label style="margin: 10px auto;">Nazwisko</label><br>
-                <input type="text" name="lastName" id="lastName" th:field="${person.lastName}" value="" style="width: 100%;"><br>
-                <label style="margin: 10px auto;">Pesel</label><br>
-                <input type="text" name="pesel" id="pesel" th:field="${person.pesel}" value="" style="width: 100%;"><br>
-                <label style="margin: 10px auto;">Data Urodzenia</label><br>
-                <input type="date" name="dateOfBirth" id="dateOfBirth" th:field="${person.dateOfBirth}" value="" style="width: 100%;"><br>
+                <div class="personFieldDiv">
+                    <label style="margin: 10px auto;">Imię:</label><br>
+                    <input type="text" name="title" id="firstName" th:field="${person.firstName}" value="" style="width: 100%;"><br>
+                    <p th:if="${#fields.hasErrors('firstName')}" th:errors="${person.firstName}" class="error"></p>
+                </div>
+                <div class="personFieldDiv">
+                   <label style="margin: 10px auto;">Nazwisko</label><br>
+                   <input type="text" name="lastName" id="lastName" th:field="${person.lastName}" value="" style="width: 100%;"><br>
+                   <p th:if="${#fields.hasErrors('lastName')}" th:errors="${person.lastName}" class="error"></p>
+               </div>
+                <div class="personFieldDiv">
+                    <label style="margin: 10px auto;">Pesel</label><br>
+                    <input type="number" name="pesel" id="pesel" th:field="${person.pesel}" value="" style="width: 100%;"><br>
+                    <p th:if="${#fields.hasErrors('pesel')}" th:errors="${person.pesel}" class="error"></p>
+                </div>
+                <div class="personFieldDiv">
+                   <label style="margin: 10px auto;">Data Urodzenia</label><br>
+                   <input type="date" name="dateOfBirth" id="dateOfBirth" th:field="${person.dateOfBirth}" value="" style="width: 100%;"><br>
+                    <p th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="${person.dateOfBirth}" class="error"></p>
+               </div>
             </div>
             <div style="width: 49%;display: inline-block;padding: 20px;">
                 <h2>Adress</h2>
-                <label style="margin: 10px auto;">Ulica</label><br>
-                <input type="text" name="street" id="street" th:field="${person.adress.street}" value="" style="width: 100%;"><br>
-                <label style="margin: 10px auto;">Nr domu</label><br>
-                <input type="text" name="houseNumber" id="houseNumber" th:field="${person.adress.houseNumber}" value="" style="width: 100%;"><br>
-                <label style="margin: 10px auto;">Miasto</label><br>
-                <input type="text" name="city" id="city" th:field="${person.adress.city}" value="" style="width: 100%;"><br>
-                <label style="margin: 10px auto;">Kod pocztowy</label><br>
-                <input type="text" name="zipCode" id="zipCode" th:field="${person.adress.zipCode}" value="" style="width: 100%;"><br>
+                <div class="personFieldDiv">
+                    <label style="margin: 10px auto;">Ulica</label><br>
+                    <input type="text" name="street" id="street" th:field="${person.adress.street}" value="" style="width: 100%;"><br>
+                    <p th:if="${#fields.hasErrors('adress.street')}" th:error="${person.adress.street}" class="error"></p>
+                </div>
+                <div class="personFieldDiv">
+                    <label style="margin: 10px auto;">Nr domu</label><br>
+                    <input type="text" name="houseNumber" id="houseNumber" th:field="${person.adress.houseNumber}" value="" style="width: 100%;"><br>
+                    <p th:if="${#fields.hasErrors('adress.houseNumber')}" th:error="${person.adress.houseNumber}" class="error"></p>
+                </div>
+                <div class="personFieldDiv">
+                   <label style="margin: 10px auto;">Miasto</label><br>
+                   <input type="text" name="city" id="city" th:field="${person.adress.city}" value="" style="width: 100%;"><br>
+                   <p th:if="${#fields.hasErrors('adress.city')}" th:error="${person.adress.city}" class="error"></p>
+               </div>
+                <div class="personFieldDiv">
+                    <label style="margin: 10px auto;">Kod pocztowy</label><br>
+                    <input type="text" name="zipCode" id="zipCode" th:field="${person.adress.zipCode}" value="" style="width: 100%;"><br>
+                    <p th:if="${#fields.hasErrors('adress.zipCode')}" th:error="${person.adress.zipCode}" class="error"></p>
+                </div>
             </div>
             <div style="margin-top: 50px;">
                 <input type="submit" value="Dodaj" class="btn btn-primary" style="width: 200px; margin: auto; display: block;">
@@ -62,5 +86,15 @@
     </div>
 
 </div>
+<style>
+.personFieldDiv {
+    height: 90px;
+}
+.error {
+    color: red;
+    font-size: 11px;
+    position: absolute;
+}
+</style>
 </body>
 </html>
