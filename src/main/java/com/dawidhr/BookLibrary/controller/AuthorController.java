@@ -2,10 +2,12 @@ package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.dao.BookDAO;
-import com.dawidhr.BookLibrary.model.Author;
-import com.dawidhr.BookLibrary.model.Book;
+import com.dawidhr.BookLibrary.dao.BookInfoDAOImpl;
+import com.dawidhr.BookLibrary.model.*;
+import com.dawidhr.BookLibrary.model.simple.BookAddModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,22 +15,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class AuthorController {
-
-    private final AuthorDAO authorDAO;
-    private final BookDAO bookDAO;
+    @Autowired
+    private AuthorDAO authorDAO;
+    @Autowired
+    private BookDAO bookDAO;
+    @Autowired
+    private BookInfoDAOImpl bookInfoDAO;
     private static final Integer AUTHOR_PER_PAGE = 2;
-
-    public AuthorController(AuthorDAO authorDAO, BookDAO bookDAO) {
-        this.authorDAO = authorDAO;
-        this.bookDAO = bookDAO;
-    }
 
     @RequestMapping("/authors")
     public String getAllAuthors(Model model, HttpServletRequest request) {
@@ -72,8 +69,9 @@ public class AuthorController {
         if (bindingResult.hasErrors()) {
             return "author/add.html";
         }
+        //Dodaj sprawdzanie czy taki autor już nie istnieje
         authorDAO.insertAuthor(author);
-        return "author/list";
+        return "redirect:/authors";
     }
 
     @GetMapping("/author/{id}/edit")
@@ -94,7 +92,37 @@ public class AuthorController {
         }
     }
 
-    @GetMapping("/author/{authorId}/book/{bookId}/add")
+    @GetMapping("/author/{authorId}/book/add")
+    public String addBookToAuthor(@PathVariable("authorId") long authorId, Model model) {
+            model.addAttribute("book", new BookAddModel());
+            model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
+            model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
+            model.addAttribute("authorId", authorId);
+            return "/book/add2.html";
+    }
+
+    @GetMapping("/author/{authorId}/book/processAddingBook")
+    public String processAddingBook(@Valid @ModelAttribute BookAddModel bookAddModel, BindingResult bindingResult, @PathVariable("authorId") long authorId) {
+        if (!bindingResult.hasErrors()) {
+            Optional<Author> author = authorDAO.findById(authorId);
+            if (author.isPresent()) {
+                BookInfo bookInfo = new BookInfo(bookAddModel);
+                bookInfoDAO.insertBookInfo(bookInfo);
+                long quantity = bookAddModel.getQuantity();
+                Book book = new Book(author.get(), bookInfo);
+                for (long i = 0; i < quantity ; i++) {
+                    bookDAO.insertBook(book);
+                }
+                Author author1 = author.get();
+                author1.addBook(bookInfo);
+                return "redirect:/author/"+authorId;
+            }
+        }
+        return "redirect:/error.html";
+    }
+
+
+/*    @GetMapping("/author/{authorId}/book/{bookId}/add")
     public String assingBookToAuthor(@PathVariable("authorId") long authorId, @PathVariable("bookId") long bookId) {
         Optional<Author> author = authorDAO.findById(authorId);
         Optional<Book> book = bookDAO.findById(bookId);
@@ -105,7 +133,7 @@ public class AuthorController {
             return "redirect:/author/{authorId}";
         }
         return "redirect:/error.html";
-    }
+    }*/
 
     private boolean isBookAndAuthorExist(Optional<Book> book, Optional<Author> author) {
         return book.isPresent() && author.isPresent();
