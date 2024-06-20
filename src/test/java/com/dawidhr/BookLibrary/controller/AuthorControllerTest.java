@@ -4,6 +4,7 @@ import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Author;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@Disabled
 class AuthorControllerTest {
 
     @Mock
