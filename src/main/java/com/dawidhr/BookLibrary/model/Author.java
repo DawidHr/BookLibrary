@@ -28,7 +28,7 @@ public class Author {
     @Column(name = "last_name")
     private String lastName;
     @ManyToMany(mappedBy = "authors", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Set<Book> books = new HashSet<>();
+    private Set<BookInfo> books = new HashSet<>();
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp creationDate;
@@ -41,7 +41,7 @@ public class Author {
         this.lastName = lastName;
     }
 
-    public void addBook(Book book) {
+    public void addBook(BookInfo book) {
         this.books.add(book);
         book.addAuthor(this);
     }
