@@ -12,10 +12,10 @@
 
     <div id = "author_top_block">
         <div id="author_image_block">
-            <div th:if="${author.imageUrl != null}">
+            <div th:if="${author.imageUrl != null && author.imageUrl != '' }">
                 <img th:src ="${author.imageUrl}" th:if="${author.imageUrl}" style="width: 350px" />
             </div>
-            <div th:unless="${author.imageUrl != null}">
+            <div th:unless="${author.imageUrl != null && author.imageUrl != ''}">
                 <img src ="https://img.freepik.com/premium-wektory/ikona-nieznanej-osoby_116137-7213.jpg" style="width: 350px" />
             </div>
 
