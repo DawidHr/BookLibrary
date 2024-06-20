@@ -30,7 +30,7 @@ public class Boot implements CommandLineRunner {
 
     private void prepareDataForDatabase() {
 
-        Author author1 = new Author("Andrzej", "Ziemiański");
+/*        Author author1 = new Author("Andrzej", "Ziemiański");
         Author author2 = new Author("Williams Chima", "Cinda");
         Author author3 = new Author("Trudi", "Canavan");
 
@@ -88,6 +88,6 @@ public class Boot implements CommandLineRunner {
 
         for (Author author : authors) {
             authorDAO.insertAuthor(author);
-        }
+        }*/
     }
 }
