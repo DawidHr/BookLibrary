@@ -33,6 +33,15 @@ public class Boot implements CommandLineRunner {
         Author author1 = new Author("Andrzej", "Ziemiański");
         Author author2 = new Author("Williams Chima", "Cinda");
         Author author3 = new Author("Trudi", "Canavan");
+        Author author4 = new Author("Robert C", "Martin");
+        Author author5 = new Author("David", "Goggins");
+        Author author6 = new Author("James", "Clear");
+        Author author7 = new Author("Paweł", "Zbroszczyk");
+        Author author8 = new Author("Saulski", "Arkady");
+        Author author9 = new Author("Vernon", "Vaughn");
+        Author author10 = new Author("Eric", "Evans");
+        Author author11 = new Author("Daniel", "Negreanu");
+
 
         BookInfo book1 = new BookInfo("Virion. Wyrocznia. Tom 1", BookCategory.FANTASY, "https://i.ytimg.com/vi/zxkwAXVQoKc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDhwIoBMKyJzrxQSznlbC1wq8Qa6g");
         BookInfo book2 = new BookInfo("Virion. Obława. Tom 2", BookCategory.FANTASY, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2PZATo_BW9VYNF82K5vD4a5sS3W1xfkmc2iVq-z2zw&s");
@@ -74,10 +83,7 @@ public class Boot implements CommandLineRunner {
         author2.addBook(book9);
         author2.addBook(book10);
 
-        List<Author> authors = new ArrayList<>();
-        authors.add(author3);
-        authors.add(author2);
-        authors.add(author1);
+        List<Author> authors = List.of(author1, author2, author3, author4, author5, author6, author7, author8, author9, author10, author11);
         List<BookInfo> books = new ArrayList<>();
         books.add(book1);
         books.add(book2);
