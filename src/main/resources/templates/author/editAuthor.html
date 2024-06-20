@@ -11,16 +11,15 @@
 <div class="content">
     <div id = "author_top_block">
         <div id="author_image_block">
-            <div th:if="${author.imageUrl != null}">
+            <div th:if="${author.imageUrl != null && author.imageUrl != '' }">
                 <img th:src ="${author.imageUrl}" th:if="${author.imageUrl}" style="width: 350px" />
             </div>
-            <div th:unless="${author.imageUrl != null}">
+            <div th:unless="${author.imageUrl != null && author.imageUrl != '' }">
                 <img src ="https://img.freepik.com/premium-wektory/ikona-nieznanej-osoby_116137-7213.jpg" style="width: 350px" />
             </div>
 
         </div>
         <div  id="author_info_block">
-
             <H1>Informacje o autorze</H1>
             <h3> <p th:text="${author.firstName}" class="author_info_p"></p> <p th:text="${author.lastName}"  class="author_info_p"></h3>
             <h3>Książki:</h3>
@@ -29,56 +28,24 @@
                 <tr>
                     <td>Tytuł</td>
                     <td>Kategoria</td>
+                    <td>Akcja</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="book : ${author.books}">
+                <tr th:each="book : ${books}">
                     <td>
                         <p th:text="${book.title}"></p>
                     </td>
                     <td>
                         <p th:text="${book.category}"></p>
                     </td>
+                    <td>
+                    </td>
                 </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div>
-        <h2>Przypisywanie Książki</h2>
-        <div style="margin: 20px;">
-            <form th:action="@{'/author/'+${author.authorId}+'/edit'}" method="get">
-                <input type="text" name="bookTitle" style="width: 80%;" />
-                <input type="submit" value="Znajdź" style="width: 19%;">
-            </form>
-        </div>
-        <div>
             <div>
-                <table class="table table-hover">
-                    <tr>
-                        <td>Id</td>
-                        <td>Tytuł książki</td>
-                        <td>Kategoria</td>
-                        <td>Status</td>
-                        <td>Akcje</td>
-                    </tr>
-                    <tr th:each="book : ${books}">
-                        <td th:text="${book.bookId}"></td>
-                        <td th:text="${book.title}"></td>
-                        <td th:text="${book.category.name}"></td>
-                        <td th:text="${book.bookStatus.name}"></td>
-                        <td>
-                            <a th:href="@{'/author/'+${author.authorId}+'/book/' + ${book.bookId}+'/add'}"><button type="button" class="btn btn-info">Przypisz</button></a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div>
-                <ul  class="pagination justify-content-center">
-                    <li class="page-item" th:each="page : ${pagination}">
-                        <a class="page-link" th:href="@{'books?page=' + ${page}}" th:text="${page}"></a>
-                    </li>
-                </ul>
+                <a type="button" class="btn btn-primary" th:href="@{'/author/'+${author.authorId}+'/book/add'}" style="display:block">Dodaj Książkę</a>
             </div>
         </div>
     </div>

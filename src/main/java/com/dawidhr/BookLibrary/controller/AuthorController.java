@@ -83,7 +83,7 @@ public class AuthorController {
             if (StringUtils.hasText(bookTitle)) {
                 model.addAttribute("books",bookDAO.findBook(bookTitle));
             } else {
-                model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(0, 5)));
+                model.addAttribute("books", bookInfoDAO.getAllBooksInfo());
             }
 
             return "author/editAuthor.html";
@@ -94,29 +94,30 @@ public class AuthorController {
 
     @GetMapping("/author/{authorId}/book/add")
     public String addBookToAuthor(@PathVariable("authorId") long authorId, Model model) {
-            model.addAttribute("book", new BookAddModel());
-            model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
-            model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
-            model.addAttribute("authorId", authorId);
-            return "/book/add2.html";
+        return prepareAddingView(model, authorId);
     }
 
-    @GetMapping("/author/{authorId}/book/processAddingBook")
-    public String processAddingBook(@Valid @ModelAttribute BookAddModel bookAddModel, BindingResult bindingResult, @PathVariable("authorId") long authorId) {
-        if (!bindingResult.hasErrors()) {
-            Optional<Author> author = authorDAO.findById(authorId);
-            if (author.isPresent()) {
-                BookInfo bookInfo = new BookInfo(bookAddModel);
-                bookInfoDAO.insertBookInfo(bookInfo);
-                long quantity = bookAddModel.getQuantity();
-                Book book = new Book(author.get(), bookInfo);
-                for (long i = 0; i < quantity ; i++) {
-                    bookDAO.insertBook(book);
-                }
-                Author author1 = author.get();
-                author1.addBook(bookInfo);
-                return "redirect:/author/"+authorId;
+    @PostMapping("/author/{authorId}/book/add")
+    public String processAddingBook(@Valid @ModelAttribute BookAddModel bookAddModel, BindingResult bindingResult, @PathVariable("authorId") long authorId, Model model) {
+        if (bindingResult.hasErrors()) {
+            return prepareAddingView(model, authorId);
+        }
+        BookInfo fundedBookInfo = bookInfoDAO.findByTitle(bookAddModel.getTitle());
+        if(fundedBookInfo != null) {
+            return "redirect:/error.html";
+        }
+        Optional<Author> author = authorDAO.findById(authorId);
+        if (author.isPresent()) {
+            BookInfo bookInfo = new BookInfo(bookAddModel);
+            bookInfoDAO.insertBookInfo(bookInfo);
+            long quantity = bookAddModel.getQuantity();
+            Book book = new Book(author.get(), bookInfo);
+            for (long i = 0; i < quantity ; i++) {
+                bookDAO.insertBook(book);
             }
+            Author author1 = author.get();
+            author1.addBook(bookInfo);
+            return "redirect:/author/"+authorId;
         }
         return "redirect:/error.html";
     }
@@ -149,4 +150,11 @@ public class AuthorController {
         }
     }
 
+    private String prepareAddingView(Model model, long authorId) {
+        model.addAttribute("book", new BookAddModel());
+        model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
+        model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
+        model.addAttribute("authorId", authorId);
+        return "/book/add2.html";
+    }
 }
