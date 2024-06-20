@@ -1,15 +1,9 @@
 package com.dawidhr.BookLibrary.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -21,29 +15,17 @@ import java.util.Set;
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private Long bookId;
-    @Column(name = "title")
-    @NotBlank
-    @Length(max=200)
-    private String title;
-    @ManyToMany()
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors = new HashSet<>();
-    @Column(name = "description")
-    private String description;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category")
-    @NotNull
-    private BookCategory category;
+    @ManyToOne
+    BookInfo bookInfo;
     @Enumerated(EnumType.STRING)
     @Column(name = "book_status")
     private BookStatus bookStatus;
-    @Column(name = "image_url")
-    private String imageUrl;
     @Column(name = "is_deleted")
     boolean isDeleted;
     @CreationTimestamp
@@ -52,17 +34,18 @@ public class Book {
     @UpdateTimestamp
     private Timestamp modificationDate;
 
-    public Book(String title, String description, BookCategory category, BookStatus bookStatus, String imageUrl) {
-        this.title = title;
-        this.description = description;
-        this.category = category;
+    public Book(BookInfo bookInfo, BookStatus bookStatus, boolean isDeleted, Timestamp creationDate, Timestamp modificationDate) {
+        this.bookInfo = bookInfo;
         this.bookStatus = bookStatus;
-        this.imageUrl = imageUrl;
-        this.isDeleted = false;
+        this.isDeleted = isDeleted;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
     }
 
-    public void addAuthor(Author author) {
-        this.authors.add(author);
+    public Book(Author author, BookInfo bookInfo) {
+        this.bookInfo = bookInfo;
+        this.bookStatus = BookStatus.AVAILABLE;
+        this.isDeleted = false;
     }
 
 }
