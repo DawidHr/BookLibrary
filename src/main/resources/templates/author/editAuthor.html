@@ -23,6 +23,7 @@
             <H1>Informacje o autorze</H1>
             <h3> <p th:text="${author.firstName}" class="author_info_p"></p> <p th:text="${author.lastName}"  class="author_info_p"></h3>
             <h3>Książki:</h3>
+            <div style="overflow: scroll;scrollbar-width: thin;height: 250px;">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -32,7 +33,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="book : ${books}">
+                <tr th:each="book : ${author.books}">
                     <td>
                         <p th:text="${book.title}"></p>
                     </td>
@@ -44,6 +45,7 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
             <div>
                 <a type="button" class="btn btn-primary" th:href="@{'/author/'+${author.authorId}+'/book/add'}" style="display:block">Dodaj Książkę</a>
             </div>

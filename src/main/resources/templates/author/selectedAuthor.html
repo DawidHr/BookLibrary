@@ -25,24 +25,26 @@
             <H1>Informacje o autorze</H1>
             <h3> Author: <p th:text="${author.firstName}" class="author_info_p"></p> <p th:text="${author.lastName}"  class="author_info_p"></h3>
             <h3>Książki:</h3>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <td>Tytuł</td>
-                    <td>Kategoria</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="book : ${author.books}">
-                    <td>
-                        <p th:text="${book.title}"></p>
-                    </td>
-                    <td>
-                        <p th:text="${book.category}"></p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div style="overflow: scroll;scrollbar-width: thin;height: 250px;">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>Tytuł</td>
+                        <td>Kategoria</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book : ${author.books}">
+                        <td>
+                            <p th:text="${book.title}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${book.category}"></p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div id = "author_bottom_block">
@@ -77,6 +79,7 @@
   position: absolute;
   top: 29px;
   display: inline-block;
+  width: 69%;
 }
 
 #author_bottom_block {

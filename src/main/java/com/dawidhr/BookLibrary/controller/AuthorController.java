@@ -117,28 +117,12 @@ public class AuthorController {
             }
             Author author1 = author.get();
             author1.addBook(bookInfo);
+            authorDAO.insertAuthor(author1);
             return "redirect:/author/"+authorId;
         }
         return "redirect:/error.html";
     }
 
-
-/*    @GetMapping("/author/{authorId}/book/{bookId}/add")
-    public String assingBookToAuthor(@PathVariable("authorId") long authorId, @PathVariable("bookId") long bookId) {
-        Optional<Author> author = authorDAO.findById(authorId);
-        Optional<Book> book = bookDAO.findById(bookId);
-        if (isBookAndAuthorExist(book, author)) {
-            Author selectedAuthor = author.get();
-            selectedAuthor.addBook(book.get());
-            authorDAO.insertAuthor(selectedAuthor);
-            return "redirect:/author/{authorId}";
-        }
-        return "redirect:/error.html";
-    }*/
-
-    private boolean isBookAndAuthorExist(Optional<Book> book, Optional<Author> author) {
-        return book.isPresent() && author.isPresent();
-    }
 
     private void preparePagination(List<Long> pagination) {
         long bookSize = authorDAO.count();
