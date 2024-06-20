@@ -2,22 +2,17 @@ package com.dawidhr.BookLibrary.controller;
 
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Book;
-import com.dawidhr.BookLibrary.model.BookCategory;
 import com.dawidhr.BookLibrary.model.BookStatus;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,16 +20,13 @@ import java.util.Optional;
 @Controller
 public class BookController {
 
-    private final BookDAO bookDAO;
+    @Autowired
+    private BookDAO bookDAO;
     private static final Integer BOOK_PER_PAGE = 5;
-
-    public BookController(BookDAO bookDAO) {
-        this.bookDAO = bookDAO;
-    }
 
     @GetMapping("/books")
     public String getAllBooks(Model model, HttpServletRequest request) {
-        Integer page = 0;
+        int page = 0;
         List<Integer> pagination = new ArrayList<>();
         Map<String, String[]> parameters = request.getParameterMap();
         if (parameters.containsKey("page")) {
@@ -52,8 +44,6 @@ public class BookController {
         return "book/List.html";
     }
 
-
-
     @GetMapping("/book/{id}")
     public String getSelectedBook(@PathVariable Long id, Model model) {
         Optional<Book> book = bookDAO.findById(id);
@@ -65,54 +55,15 @@ public class BookController {
         }
     }
 
-    @GetMapping("/book/{id}/edit")
-    public String editSelectedBook(@PathVariable Long id, Model model) {
-        Optional<Book> book = bookDAO.findById(id);
-        if (book.isPresent()) {
-            model.addAttribute("book",book.get());
-            model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
-            model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
-            return "book/editBook.html";
-        } else {
-            return "redirect:error.html";
-        }
-    }
-
-    @PostMapping("book/saveEditBook")
-    public String saveEditBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "book/editBook.html";
-        }
-        bookDAO.insertBook(book);
-        return "book/List.html";
-    }
-
-    @GetMapping("/book/add")
-    public String addBooks(Model model) {
-        model.addAttribute("book", new Book());
-        model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
-        model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
-        return "book/add.html";
-    }
-
-    @PostMapping("/book/processAddingBook")
-    public String processAddingBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
-            model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
-            return "book/add.html";
-        }
-        bookDAO.insertBook(book);
-        return "redirect:/books";
-    }
-
     @GetMapping("/book/{id}/delete")
     public String processAddingBook(@PathVariable Long id) {
         Optional<Book> optionalBook = bookDAO.findById(id);
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
-            book.setDeleted(true);
-            bookDAO.insertBook(book);
+            if (BookStatus.AVAILABLE.equals(book.getBookStatus())) {
+                book.setDeleted(true);
+                bookDAO.insertBook(book);
+            }
         }
         return "book/List.html";
     }

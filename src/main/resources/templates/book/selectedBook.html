@@ -10,23 +10,23 @@
 </div>
 <div id = "book_top_block">
     <div id="book_image_block">
-        <img th:src ="${book.imageUrl}" style="width: 350px" />
+        <img th:src ="${book.bookInfo.imageUrl}" style="width: 350px" />
     </div>
     <div  id="book_info_block">
 
         <H1>Informacje o książce</H1>
-        <h3>Tytuł: <p th:text="${book.title}" class="book_info_p"></p></h3>
-        <h3>Kategoria: <p th:text="${book.category}"  class="book_info_p"></p></h3>
+        <h3>Tytuł: <p th:text="${book.bookInfo.title}" class="book_info_p"></p></h3>
+        <h3>Kategoria: <p th:text="${book.bookInfo.category}"  class="book_info_p"></p></h3>
         <h3>Status: <p th:text="${book.bookStatus}"  class="book_info_p"></p></h3>
         <h3>Autorzy:</h3>
-        <ul th:each="author : ${book.authors}">
+        <ul th:each="author : ${book.bookInfo.authors}">
             <li th:text="${author.firstName} + ' ' + ${author.lastName}"></li>
         </ul>
     </div>
 </div>
 <div id = "book_bottom_block">
     <h2>Opis</h2>
-    <p th:text="${book.description}"></p>
+    <p th:text="${book.bookInfo.description}"></p>
 </div>
 <style>
 #book_top_block {
