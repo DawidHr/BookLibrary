@@ -48,4 +48,10 @@ public class Book {
         this.isDeleted = false;
     }
 
+    public Book(BookInfo bookInfo) {
+        this.bookInfo = bookInfo;
+        this.bookStatus = BookStatus.AVAILABLE;
+        this.isDeleted = false;
+    }
+
 }

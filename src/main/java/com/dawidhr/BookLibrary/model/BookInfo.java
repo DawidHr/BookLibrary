@@ -45,7 +45,17 @@ public class BookInfo {
         this.imageUrl = bookAddModel.getImageUrl();
     }
 
+    public BookInfo(String title,  BookCategory bookCategory, String imageUrl) {
+        this.title = title;
+        this.category = bookCategory;
+        this.imageUrl = imageUrl;
+    }
+
     public void addAuthor(Author author) {
         this.authors.add(author);
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
     }
 }

@@ -2,12 +2,12 @@ package com.dawidhr.BookLibrary.config;
 
 import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.dao.BookDAO;
-import com.dawidhr.BookLibrary.model.Author;
-import com.dawidhr.BookLibrary.model.Book;
-import com.dawidhr.BookLibrary.model.BookCategory;
-import com.dawidhr.BookLibrary.model.BookStatus;
+import com.dawidhr.BookLibrary.dao.BookInfoDAO;
+import com.dawidhr.BookLibrary.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,36 +15,52 @@ import java.util.List;
 @Component
 public class Boot implements CommandLineRunner {
 
-    private final BookDAO bookDAO;
-    private final AuthorDAO authorDAO;
+    @Autowired
+    private BookDAO bookDAO;
+    @Autowired
+    private AuthorDAO authorDAO;
+    @Autowired
+    private BookInfoDAO bookInfoDAO;
 
-    public Boot(BookDAO bookDAO, AuthorDAO authorDAO) {
-        this.bookDAO = bookDAO;
-        this.authorDAO = authorDAO;
-    }
 
     @Override
     public void run(String... args) throws Exception {
-       // prepareDataForDatabase();
+        prepareDataForDatabase();
     }
 
     private void prepareDataForDatabase() {
 
-/*        Author author1 = new Author("Andrzej", "Ziemiański");
+        Author author1 = new Author("Andrzej", "Ziemiański");
         Author author2 = new Author("Williams Chima", "Cinda");
         Author author3 = new Author("Trudi", "Canavan");
 
-        Book book1 = new Book("Virion. Wyrocznia. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "https://i.ytimg.com/vi/zxkwAXVQoKc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDhwIoBMKyJzrxQSznlbC1wq8Qa6g");
-        Book book2 = new Book("Virion. Obława. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2PZATo_BW9VYNF82K5vD4a5sS3W1xfkmc2iVq-z2zw&s");
-        Book book3 = new Book("Virion. Adept. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "https://ecsmedia.pl/c/virion-adept-tom-3-b-iext146705461.jpg");
-        Book book4 = new Book("Virion. Szermierz. Tom 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
-        Book book5 = new Book("Virion. Zamek. Szermierz natchniony. Tom 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
-        Book book6 = new Book("Virion. Pustynia. Szermierz natchniony. Tom 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
-        Book book7 = new Book("Virion. Legion. Szermierz natchniony. Tom 3", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        BookInfo book1 = new BookInfo("Virion. Wyrocznia. Tom 1", BookCategory.FANTASY, "https://i.ytimg.com/vi/zxkwAXVQoKc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDhwIoBMKyJzrxQSznlbC1wq8Qa6g");
+        BookInfo book2 = new BookInfo("Virion. Obława. Tom 2", BookCategory.FANTASY, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI2PZATo_BW9VYNF82K5vD4a5sS3W1xfkmc2iVq-z2zw&s");
+        BookInfo book3 = new BookInfo("Virion. Adept. Tom 3", BookCategory.FANTASY, "https://ecsmedia.pl/c/virion-adept-tom-3-b-iext146705461.jpg");
+        BookInfo book4 = new BookInfo("Virion. Szermierz. Tom 4", BookCategory.FANTASY, "");
+        BookInfo book5 = new BookInfo("Virion. Zamek. Szermierz natchniony. Tom 1", BookCategory.FANTASY, "");
+        BookInfo book6 = new BookInfo("Virion. Pustynia. Szermierz natchniony. Tom 2", BookCategory.FANTASY, "");
+        BookInfo book7 = new BookInfo("Virion. Legion. Szermierz natchniony. Tom 3", BookCategory.FANTASY, "");
 
-        Book book8 = new Book("Król Demon. Siedem królestw. Księga 1", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
-        Book book9 = new Book("Wygnana królowa. Siedem królestw. Księga 2", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
-        Book book10 = new Book("Karmazynowa korona. Siedem królestw. Księga 4", "", BookCategory.FANTASY, BookStatus.AVAILABLE, "");
+        BookInfo book8 = new BookInfo("Król Demon. Siedem królestw. Księga 1", BookCategory.FANTASY, "");
+        BookInfo book9 = new BookInfo("Wygnana królowa. Siedem królestw. Księga 2", BookCategory.FANTASY, "");
+        BookInfo book10 = new BookInfo("Karmazynowa korona. Siedem królestw. Księga 4", BookCategory.FANTASY, "");
+
+
+
+        Book book1_1 = new Book(book1);
+        Book book1_2 = new Book(book1);
+        Book book1_3 = new Book(book1);
+
+        Book book2_1 = new Book(book2);
+        Book book2_2 = new Book(book2);
+
+        book1.addBook(book1_1);
+        book1.addBook(book1_2);
+        book1.addBook(book1_3);
+
+        book2.addBook(book2_1);
+        book2.addBook(book2_2);
 
         author1.addBook(book1);
         author1.addBook(book2);
@@ -58,23 +74,11 @@ public class Boot implements CommandLineRunner {
         author2.addBook(book9);
         author2.addBook(book10);
 
-        book1.addAuthor(author1);
-        book2.addAuthor(author1);
-        book3.addAuthor(author1);
-        book4.addAuthor(author1);
-        book5.addAuthor(author1);
-        book6.addAuthor(author1);
-        book7.addAuthor(author1);
-
-        book8.addAuthor(author2);
-        book9.addAuthor(author2);
-        book10.addAuthor(author2);
-
         List<Author> authors = new ArrayList<>();
         authors.add(author3);
         authors.add(author2);
         authors.add(author1);
-        List<Book> books = new ArrayList<>();
+        List<BookInfo> books = new ArrayList<>();
         books.add(book1);
         books.add(book2);
         books.add(book3);
@@ -88,6 +92,6 @@ public class Boot implements CommandLineRunner {
 
         for (Author author : authors) {
             authorDAO.insertAuthor(author);
-        }*/
+        }
     }
 }
