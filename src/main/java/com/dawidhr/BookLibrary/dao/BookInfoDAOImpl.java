@@ -29,7 +29,7 @@ public class BookInfoDAOImpl implements BookInfoDAO {
     @Override
     public BookInfo findByTitle(String title) {
         TypedQuery<BookInfo> query = entityManagerFactory.createEntityManager().createQuery("""
-                SELECT b FROM BookInfo b WHERE b.title like :find 
+                SELECT b FROM BookInfo b WHERE b.title = :find 
                 """, BookInfo.class);
         query.setParameter("find", "%"+title+"%");
         List<BookInfo> books = query.getResultList();
