@@ -79,13 +79,6 @@ public class AuthorController {
         Optional<Author> author = authorDAO.findById(id);
         if (author.isPresent()) {
             model.addAttribute("author",author.get());
-            String bookTitle = request.getParameter("bookTitle");
-            if (StringUtils.hasText(bookTitle)) {
-                model.addAttribute("books",bookDAO.findBook(bookTitle));
-            } else {
-                model.addAttribute("books", bookInfoDAO.getAllBooksInfo());
-            }
-
             return "author/editAuthor.html";
         } else {
             return "redirect:/error.html";
