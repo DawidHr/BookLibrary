@@ -19,7 +19,6 @@ import static org.mockito.Mockito.when;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-@Disabled
 class PersonControllerTest {
 
     @Mock
