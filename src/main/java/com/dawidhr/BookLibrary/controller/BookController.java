@@ -96,12 +96,14 @@ public class BookController {
     }
 
     @PostMapping("/book/processAddingBook")
-    public String processAddingBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult) {
+    public String processAddingBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
+            model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
             return "book/add.html";
         }
         bookDAO.insertBook(book);
-        return "book/List.html";
+        return "redirect:/books";
     }
 
     @GetMapping("/book/{id}/delete")
