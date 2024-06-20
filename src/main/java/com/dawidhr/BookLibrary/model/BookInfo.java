@@ -35,7 +35,7 @@ public class BookInfo {
     private String description;
     @Column(name = "image_url")
     private String imageUrl;
-    @OneToMany(mappedBy = "bookInfo")
+    @OneToMany(mappedBy = "bookInfo", cascade = CascadeType.PERSIST)
     List<Book> books = new ArrayList<>();
 
     public BookInfo(BookAddModel bookAddModel) {

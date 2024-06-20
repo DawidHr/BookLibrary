@@ -93,5 +93,8 @@ public class Boot implements CommandLineRunner {
         for (Author author : authors) {
             authorDAO.insertAuthor(author);
         }
+        for(BookInfo book: books) {
+            bookInfoDAO.insertBookInfo(book);
+        }
     }
 }
