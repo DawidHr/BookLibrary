@@ -25,7 +25,7 @@ public class AuthorController {
     private BookDAO bookDAO;
     @Autowired
     private BookInfoDAOImpl bookInfoDAO;
-    private static final Integer AUTHOR_PER_PAGE = 2;
+    private static final Integer AUTHOR_PER_PAGE = 10;
 
     @RequestMapping("/authors")
     public String getAllAuthors(Model model, HttpServletRequest request) {
