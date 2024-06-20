@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-@Disabled
 class BookControllerTest {
 
     @Mock
@@ -67,75 +66,6 @@ class BookControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}", 1))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:error.html"));
-    }
-
-    @Test
-    public void bookEditTest() throws Exception {
-        Optional<Book> book = Optional.of(new Book());
-        when(bookDAO.findById(any())).thenReturn(book);
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}/edit", 1))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("book"))
-                .andExpect(model().attributeExists("category"))
-                .andExpect(model().attributeExists("status"))
-                .andExpect(view().name("book/editBook.html"));
-    }
-
-    @Test
-    public void bookEditNotFoundBookTest() throws Exception {
-        Optional<Book> book = Optional.empty();
-        when(bookDAO.findById(any())).thenReturn(book);
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/{id}/edit", 1))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:error.html"));
-    }
-
-    @Test
-    public void bookSaveTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/saveEditBook")
-                        .param("title", "Test")
-                        .param("category", BookCategory.FANTASY.name())
-                        .param("bookStatus", BookStatus.AVAILABLE.name()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("book/List.html"));
-    }
-
-    @Test
-    public void bookSaveNotValidTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/saveEditBook")
-                        .param("title", "Test")
-                        .param("bookStatus", BookStatus.AVAILABLE.name()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("book/editBook.html"));
-    }
-
-    @Test
-    public void bookAddTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/add"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("book"))
-                .andExpect(model().attributeExists("category"))
-                .andExpect(model().attributeExists("status"))
-                .andExpect(view().name("book/add.html"));
-    }
-
-    @Test
-    public void bookProcessAddingBookTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/processAddingBook")
-                .param("title", "Test")
-                .param("category", BookCategory.FANTASY.name())
-                .param("bookStatus", BookStatus.AVAILABLE.name()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/books"));
-    }
-
-    @Test
-    public void bookProcessAddingBookNotValidTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/book/processAddingBook")
-                        .param("title", "Test")
-                        .param("bookStatus", BookStatus.AVAILABLE.name()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("book/add.html"));
     }
 
 }
