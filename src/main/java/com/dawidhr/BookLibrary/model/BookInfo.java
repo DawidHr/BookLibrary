@@ -24,7 +24,7 @@ public class BookInfo {
     private Long bookInfoId;
     @ManyToMany()
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors;
+    private List<Author> authors = new ArrayList<>();
     @Column(name = "title")
     @NotBlank(message = "Title is required")
     private String title;
