@@ -33,6 +33,10 @@ public class Book {
     private Timestamp creationDate;
     @UpdateTimestamp
     private Timestamp modificationDate;
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
+    private BookReserved bookReserved;
+    @OneToMany
+    private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();
 
     public Book(BookInfo bookInfo, BookStatus bookStatus, boolean isDeleted, Timestamp creationDate, Timestamp modificationDate) {
         this.bookInfo = bookInfo;
