@@ -36,6 +36,7 @@ public class Book {
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
     private BookReserved bookReserved;
     @OneToMany
+    @JoinColumn(name = "book_reserved_history_id")
     private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();
 
     public Book(BookInfo bookInfo, BookStatus bookStatus, boolean isDeleted, Timestamp creationDate, Timestamp modificationDate) {

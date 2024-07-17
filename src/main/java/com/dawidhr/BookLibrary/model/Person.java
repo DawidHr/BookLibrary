@@ -58,7 +58,9 @@ public class Person {
     @UpdateTimestamp
     private Timestamp modificationDate;
     @OneToMany
+    @JoinColumn(name = "book_reserved_id")
     private Set<BookReserved> bookReserves = new HashSet<>();
     @OneToMany
+    @JoinColumn(name = "book_reserved_history_id")
     private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();
 }
