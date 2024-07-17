@@ -1,9 +1,7 @@
 package com.dawidhr.BookLibrary.dao;
 
-import com.dawidhr.BookLibrary.model.BookReserved;
 import com.dawidhr.BookLibrary.model.BookReservedHistory;
 import com.dawidhr.BookLibrary.repository.BookReservedHistoryRepository;
-import com.dawidhr.BookLibrary.repository.BookReservedRepository;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
