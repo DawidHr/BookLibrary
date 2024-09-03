@@ -47,7 +47,7 @@
                </div>
                 <div class="personFieldDiv">
                     <label style="margin: 10px auto;">Pesel</label><br>
-                    <input type="number" name="pesel" id="pesel" th:field="${person.pesel}" value="" style="width: 100%;"><br>
+                    <input type="text" name="pesel" id="pesel" th:field="${person.pesel}" value="" style="width: 100%;"><br>
                     <p th:if="${#fields.hasErrors('pesel')}" th:errors="${person.pesel}" class="error"></p>
                 </div>
                 <div class="personFieldDiv">

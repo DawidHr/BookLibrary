@@ -48,7 +48,7 @@ public class Person {
     @NotBlank(message = "Last Name is required")
     private String lastName;
     @Column(name = "pesel")
-    private Integer pesel;
+    private String pesel;
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
     private Adress adress;
