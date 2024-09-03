@@ -65,11 +65,7 @@ public class PersonController {
             return "person/add.html";
         }
         personDAO.insert(person);
-        List<Integer> pagination = new ArrayList<>();
-        model.addAttribute("persons", personDAO.getAll(PageRequest.of(0, PERSON_PER_PAGE)));
-        preparePagination(pagination);
-        model.addAttribute("pagination", pagination);
-        return "person/list.html";
+        return "redirect:/persons";
     }
 
     @GetMapping("/person/{id}/view")
