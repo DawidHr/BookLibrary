@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BookReservedDAO {
     List<BookReserved> findAllByPersonId(Long id);
+    long count();
+    long countBookReservedInLast30Days();
 }
