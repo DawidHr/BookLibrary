@@ -60,12 +60,16 @@ public class PersonController {
     }
 
     @PostMapping("/person/processAddingPerson")
-    public String processAddingPerson(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
+    public String processAddingPerson(@Valid @ModelAttribute Person person, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "person/add.html";
         }
         personDAO.insert(person);
-        return "person/list";
+        List<Integer> pagination = new ArrayList<>();
+        model.addAttribute("persons", personDAO.getAll(PageRequest.of(0, PERSON_PER_PAGE)));
+        preparePagination(pagination);
+        model.addAttribute("pagination", pagination);
+        return "person/list.html";
     }
 
     @GetMapping("/person/{id}/view")
