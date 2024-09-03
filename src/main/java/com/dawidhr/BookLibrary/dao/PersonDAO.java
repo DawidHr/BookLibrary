@@ -14,4 +14,5 @@ public interface PersonDAO {
     Page<Person> getAll(Pageable pageable);
     void update(Person person);
     int count();
+    long countPersonRegisteredInLast30Days();
 }

@@ -2,19 +2,24 @@ package com.dawidhr.BookLibrary.dao;
 
 import com.dawidhr.BookLibrary.model.Person;
 import com.dawidhr.BookLibrary.repository.PersonRepository;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Component
 public class PersonDAOImpl implements PersonDAO {
 
     private PersonRepository personRepository;
+    private final EntityManagerFactory entityManagerFactory;
 
-    public PersonDAOImpl(PersonRepository personRepository) {
+    public PersonDAOImpl(PersonRepository personRepository, EntityManagerFactory entityManagerFactory) {
         this.personRepository = personRepository;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
@@ -45,5 +50,14 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public int count() {
         return personRepository.findAll().size();
+    }
+
+    @Override
+    public long countPersonRegisteredInLast30Days() {
+        TypedQuery<Long> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT count(b) FROM Person b WHERE b.creationDate > :last30days 
+                """, Long.class);
+        query.setParameter("last30days",new Timestamp(System.currentTimeMillis()).toLocalDateTime().minusMonths(1));
+        return query.getSingleResult();
     }
 }
