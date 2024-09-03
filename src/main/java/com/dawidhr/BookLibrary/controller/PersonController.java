@@ -90,7 +90,7 @@ public class PersonController {
             if (searchTitle != null) {
                 model.addAttribute("books", bookDAO.findBook(searchTitle));
             } else {
-                model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(0, 50)));
+                model.addAttribute("books", bookDAO.getAllAvailableNotDeletedBooks(PageRequest.of(0, 50)));
             }
             return "person/selectedPerson.html";
         }
