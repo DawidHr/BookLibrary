@@ -16,4 +16,5 @@ public interface BookDAO {
     long countAllAvailableBooks();
     long countAddedBooksInLast30Days();
     List<Book> getAllAvailableBooks(Pageable pageable);
+    List<Book> getAllAvailableNotDeletedBooks(Pageable pageable);
 }
