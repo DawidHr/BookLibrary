@@ -56,7 +56,7 @@ public class BookController {
     }
 
     @GetMapping("/book/{id}/delete")
-    public String processAddingBook(@PathVariable Long id) {
+    public String processAddingBook(@PathVariable Long id, Model model) {
         Optional<Book> optionalBook = bookDAO.findById(id);
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
@@ -65,6 +65,12 @@ public class BookController {
                 bookDAO.insertBook(book);
             }
         }
+
+        int page = 0;
+        List<Integer> pagination = new ArrayList<>();
+        preparePagination(pagination);
+        model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(page, BOOK_PER_PAGE)));
+        model.addAttribute("pagination", pagination);
         return "book/List.html";
     }
 
