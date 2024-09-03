@@ -1,8 +1,9 @@
 package com.dawidhr.BookLibrary.controller;
 
 
+import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.dao.PersonDAO;
-import com.dawidhr.BookLibrary.model.Person;
+import com.dawidhr.BookLibrary.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
@@ -14,19 +15,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class PersonController {
 
     private final PersonDAO personDAO;
+    private final BookDAO bookDAO;
     private static final Integer PERSON_PER_PAGE = 5;
 
-    public PersonController(PersonDAO personDAO) {
+    public PersonController(PersonDAO personDAO, BookDAO bookDAO) {
         this.personDAO = personDAO;
+        this.bookDAO = bookDAO;
     }
 
     @GetMapping("/persons")
@@ -60,7 +63,7 @@ public class PersonController {
     }
 
     @PostMapping("/person/processAddingPerson")
-    public String processAddingPerson(@Valid @ModelAttribute Person person, BindingResult bindingResult, Model model) {
+    public String processAddingPerson(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "person/add.html";
         }
@@ -79,12 +82,35 @@ public class PersonController {
     }
 
     @GetMapping("/person/{id}/reserve")
-    public String reserve(@PathVariable("id") long id, Model model) {
+    public String reserve(@PathVariable("id") long id, Model model, HttpServletRequest request) {
         Person person = personDAO.getById(id);
         if (person != null) {
-            model.addAttribute(person);
+            String searchTitle = request.getParameter("bookTitle");
+            model.addAttribute("person", person);
+            if (searchTitle != null) {
+                model.addAttribute("books", bookDAO.findBook(searchTitle));
+            } else {
+                model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(0, 50)));
+            }
             return "person/selectedPerson.html";
         }
         return "redirect:/error.html";
+    }
+
+    @GetMapping("/person/{id}/reserve/book/{bookId}")
+    public String reserveProcess(@PathVariable("id") long id, @PathVariable("bookId") long bookId) {
+        Optional<Book> bookOptional = bookDAO.findById(bookId);
+        Book book = null;
+        if(bookOptional.isPresent()) {
+            book = bookOptional.get();
+        }
+        Person person = personDAO.getById(id);
+        if (person != null && book != null) {
+            book.setBookStatus(BookStatus.BORROWED);
+            book.setBookReserved(new BookReserved(person, book));
+           // book.addBookReservedHistory(new BookReservedHistory(person, book, BookActionStatus.BOOK_BORROWED));
+            bookDAO.insertBook(book);
+        }
+        return "redirect:/person/{id}/reserve";
     }
 }

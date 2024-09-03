@@ -6,8 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+//import java.util.HashSet;
+//import java.util.Set;
 
 @Entity()
 @Table(name = "Book")
@@ -35,9 +35,9 @@ public class Book {
     private Timestamp modificationDate;
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
     private BookReserved bookReserved;
-    @OneToMany
+/*    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_reserved_history_id")
-    private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();
+    private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();*/
 
     public Book(BookInfo bookInfo, BookStatus bookStatus, boolean isDeleted, Timestamp creationDate, Timestamp modificationDate) {
         this.bookInfo = bookInfo;
@@ -58,5 +58,9 @@ public class Book {
         this.bookStatus = BookStatus.AVAILABLE;
         this.isDeleted = false;
     }
+
+/*    public void addBookReservedHistory(BookReservedHistory bookReservedHistory) {
+        bookReservedHistories.add(bookReservedHistory);
+    }*/
 
 }

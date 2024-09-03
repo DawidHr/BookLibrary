@@ -22,6 +22,52 @@
             <h3>Miasto:  <p th:text="${person.adress.city}" class="person_info_p"></p> (<p th:text="${person.adress.zipCode}" class="person_info_p"></p>) </h3>
         </div>
     </div>
+    <div style="width: 50%;position: absolute;left: 49%;">
+        <h2>Książki pożyczone</h2>
+        <table class="table table-hover">
+            <tr>
+                <td>Id</td>
+                <td>Tytuł książki</td>
+                <td>Kategoria</td>
+                <td>Data pożyczenia</td>
+            </tr>
+            <tr th:each="reserved : ${person.bookReserves}">
+                <td th:text="${reserved.book.bookId}"></td>
+                <td th:text="${reserved.book.bookInfo.title}"></td>
+                <td th:text="${reserved.book.bookInfo.category.name}"></td>
+                <td th:text="${reserved.creationDate}"></td>
+            </tr>
+        </table>
+    </div>
+    <div style="position: absolute;width: 100%;top: 100%;">
+        <div style="margin: 20px;">
+            <form th:action="@{/person/1/reserve}" method="get">
+                <input type="text" name="bookTitle" style="width: 80%;" />
+                <input type="submit" value="Znajdź" style="width: 19%;">
+            </form>
+        </div>
+        <div>
+            <div>
+                <table class="table table-hover">
+                    <tr>
+                        <td>Id</td>
+                        <td>Tytuł książki</td>
+                        <td>Kategoria</td>
+                        <td>Status</td>
+                        <td>Akcje</td>
+                    </tr>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.bookId}"></td>
+                        <td th:text="${book.bookInfo.title}"></td>
+                        <td th:text="${book.bookInfo.category.name}"></td>
+                        <td th:text="${book.bookStatus.name}"></td>
+                        <td>
+                            <a th:href="@{'/person/'+${person.personId}+'/reserve/book/' + ${book.bookId}}"><button type="button" class="btn btn-info">Pożycz</button></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </div>
 </div>
 
 

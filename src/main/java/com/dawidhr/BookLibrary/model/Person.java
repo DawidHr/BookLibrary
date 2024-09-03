@@ -57,8 +57,7 @@ public class Person {
     private Timestamp creationDate;
     @UpdateTimestamp
     private Timestamp modificationDate;
-    @OneToMany
-    @JoinColumn(name = "book_reserved_id")
+    @OneToMany(mappedBy = "person")
     private Set<BookReserved> bookReserves = new HashSet<>();
     @OneToMany
     @JoinColumn(name = "book_reserved_history_id")

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @NoArgsConstructor
 @Data
@@ -26,4 +27,11 @@ public class BookReservedHistory {
     @Enumerated(EnumType.STRING)
     @Column(name = "book_action_status")
     BookActionStatus bookActionStatus;
+
+    public BookReservedHistory(Person person, Book book, BookActionStatus bookActionStatus) {
+        this.person = person;
+        this.book = book;
+        this.creationDate = Timestamp.from(Instant.now());
+        this.bookActionStatus = bookActionStatus;
+    }
 }
