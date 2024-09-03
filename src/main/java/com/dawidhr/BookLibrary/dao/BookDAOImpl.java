@@ -48,7 +48,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> findBook(String title) {
         TypedQuery<Book> query = entityManagerFactory.createEntityManager().createQuery("""
-                SELECT b FROM Book b WHERE b.title like :title 
+                SELECT b FROM Book b WHERE b.bookInfo.title like :title 
                 """, Book.class);
         query.setParameter("title", "%"+title+"%");
         return query.getResultList();
@@ -76,7 +76,7 @@ public class BookDAOImpl implements BookDAO {
         int offset = (int) pageable.getOffset();
         System.out.println("Offset = "+offset);
         TypedQuery<Book> query = entityManagerFactory.createEntityManager().createQuery("""
-                SELECT b FROM Book b WHERE b.isDeleted = False
+                SELECT b FROM Book b WHERE b.isDeleted = False and b.bookStatus = 'available'
                 """, Book.class);
         query.setMaxResults(5);
         query.setFirstResult(offset);
