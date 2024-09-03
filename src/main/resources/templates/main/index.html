@@ -32,6 +32,24 @@
                 </div>
             </div>
         </div>
+        <div style="width:49%;display:inline-block;">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Person</h5>
+                    <p class="card-text">Liczba zarejestrowanych: <span th:text="${personStatistic.personRegisteredCount}"></span></p>
+                    <p class="card-text">Liczba zarejestrowanych w ciągu 30 dni: <span th:text="${personStatistic.personRegisteredLast30daysCount}"></span></p>
+                </div>
+            </div>
+        </div>
+        <div style="width:49%;display:inline-block;">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Książki wypożyczone</h5>
+                    <p class="card-text">Liczba książek wypożyczonych: <span th:text="${bookReservedStatistic.bookReservedCount}"></span></p>
+                    <p class="card-text">Liczba książek wypożyczonych w ciągu 30 dni: <span th:text="${bookReservedStatistic.bookReservedLast30daysCount}"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
