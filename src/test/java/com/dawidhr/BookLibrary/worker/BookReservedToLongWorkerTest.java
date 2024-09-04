@@ -30,7 +30,7 @@ class BookReservedToLongWorkerTest {
     @Mock
     PersonNotificationDAO personNotificationDAO;
 
-    private final String message1 = "Witaj TestName Kowlaski\n" +
+    private final String messageExample = "Witaj TestName Kowlaski\n" +
             "Prosimy o zwrócenie poniższych książek.\n" +
             "- 5 zasad\n" +
             "- 10 zasad\n" +
@@ -71,7 +71,7 @@ class BookReservedToLongWorkerTest {
         person.setLastName("Kowlaski");
         List<BookReserved> bookReserves = prepareBookBorrowed();
         String messageResult = bookReservedToLongWorkerTmp.prepareMessage(person, bookReserves);
-        assertEquals(messageResult, message1);
+        assertEquals(messageResult, messageExample);
     }
 
     private List<BookReserved> prepareBookBorrowedWithDuplicat() {
