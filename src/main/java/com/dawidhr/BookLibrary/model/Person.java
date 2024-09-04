@@ -57,9 +57,10 @@ public class Person {
     private Timestamp creationDate;
     @UpdateTimestamp
     private Timestamp modificationDate;
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private Set<BookReserved> bookReserves = new HashSet<>();
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "book_reserved_history_id")
     private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();
+
 }

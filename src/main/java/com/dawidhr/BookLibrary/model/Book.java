@@ -33,7 +33,7 @@ public class Book {
     private Timestamp creationDate;
     @UpdateTimestamp
     private Timestamp modificationDate;
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "book", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, optional = true)
     private BookReserved bookReserved;
 /*    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_reserved_history_id")

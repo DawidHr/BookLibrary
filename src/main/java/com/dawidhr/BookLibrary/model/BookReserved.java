@@ -17,11 +17,11 @@ public class BookReserved {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_reserved_id")
     private Long bookReservedId;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH})
     @JoinColumn(name = "person_id")
     private Person person;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id", referencedColumnName="book_id")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "book_id")
     private Book book;
     @CreationTimestamp
     @Column(name = "creation_date", updatable = false)
@@ -30,6 +30,5 @@ public class BookReserved {
     public BookReserved(Person person, Book book) {
         this.person = person;
         this.book = book;
-        this.creationDate = Timestamp.from(Instant.now());
     }
 }

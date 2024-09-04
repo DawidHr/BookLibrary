@@ -30,12 +30,16 @@
                 <td>Tytuł książki</td>
                 <td>Kategoria</td>
                 <td>Data pożyczenia</td>
+                <td>Akcja</td>
             </tr>
             <tr th:each="reserved : ${person.bookReserves}">
                 <td th:text="${reserved.book.bookId}"></td>
                 <td th:text="${reserved.book.bookInfo.title}"></td>
                 <td th:text="${reserved.book.bookInfo.category.name}"></td>
                 <td th:text="${reserved.creationDate}"></td>
+                <td>
+                    <a th:href="@{'/person/'+${person.personId}+'/given/book/' + ${reserved.book.bookId}}"><button type="button" class="btn btn-info">Oddaj</button></a>
+                </td>
             </tr>
         </table>
     </div>

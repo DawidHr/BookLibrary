@@ -2,10 +2,12 @@ package com.dawidhr.BookLibrary.controller;
 
 
 import com.dawidhr.BookLibrary.dao.BookDAO;
+import com.dawidhr.BookLibrary.dao.BookReservedDAO;
 import com.dawidhr.BookLibrary.dao.PersonDAO;
 import com.dawidhr.BookLibrary.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +25,13 @@ import java.util.Optional;
 @Controller
 public class PersonController {
 
-    private final PersonDAO personDAO;
-    private final BookDAO bookDAO;
+    @Autowired
+    private PersonDAO personDAO;
+    @Autowired
+    private BookDAO bookDAO;
+    @Autowired
+    private BookReservedDAO bookReservedDAO;
     private static final Integer PERSON_PER_PAGE = 5;
-
-    public PersonController(PersonDAO personDAO, BookDAO bookDAO) {
-        this.personDAO = personDAO;
-        this.bookDAO = bookDAO;
-    }
 
     @GetMapping("/persons")
     public String getAllPersons(Model model, HttpServletRequest request) {
@@ -110,6 +111,25 @@ public class PersonController {
             book.setBookReserved(new BookReserved(person, book));
            // book.addBookReservedHistory(new BookReservedHistory(person, book, BookActionStatus.BOOK_BORROWED));
             bookDAO.insertBook(book);
+        }
+        return "redirect:/person/{id}/reserve";
+    }
+
+
+    @GetMapping("/person/{id}/given/book/{bookId}")
+    public String givenProcess(@PathVariable("id") long id, @PathVariable("bookId") long bookId) {
+        Optional<Book> bookOptional = bookDAO.findById(bookId);
+        Book book = null;
+        if(bookOptional.isPresent()) {
+            book = bookOptional.get();
+        }
+        Person person = personDAO.getById(id);
+        if (person != null && book != null) {
+            BookReserved bookReserved = bookReservedDAO.getById(book.getBookReserved().getBookReservedId());
+            book.setBookStatus(BookStatus.AVAILABLE);
+            book.setBookReserved(null);
+            bookDAO.insertBook(book);
+            bookReservedDAO.delete(bookReserved);
         }
         return "redirect:/person/{id}/reserve";
     }
