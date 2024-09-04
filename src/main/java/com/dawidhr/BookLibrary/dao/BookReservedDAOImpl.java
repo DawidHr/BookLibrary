@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Component
@@ -53,6 +55,25 @@ public class BookReservedDAOImpl implements BookReservedDAO {
     @Override
     public BookReserved getById(long id) {
         return bookReservedRepository.getReferenceById(id);
+    }
+
+    @Override
+    public List<BookReserved> getAllBooksBorrowedAtLeast2MonthsAgo() {
+        TypedQuery<BookReserved> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT * FROM BookReserved b WHERE b.creationDate <= :creationDate
+                """, BookReserved.class);
+        query.setParameter("creationDate", Timestamp.from(Instant.now().minus(2, ChronoUnit.MONTHS)));
+        return query.getResultList();
+    }
+
+    @Override
+    public List<BookReserved> getAllBooksBorrowedAtLeast2MonthsAgoByPersonId(long personId) {
+        TypedQuery<BookReserved> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT * FROM BookReserved b WHERE b.creationDate <= :creationDate AND b.Person.personId = :personId
+                """, BookReserved.class);
+        query.setParameter("creationDate", Timestamp.from(Instant.now().minus(2, ChronoUnit.MONTHS)));
+        query.setParameter("personId", personId);
+        return query.getResultList();
     }
 
 
