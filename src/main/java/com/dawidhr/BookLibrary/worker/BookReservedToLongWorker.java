@@ -25,11 +25,15 @@ public class BookReservedToLongWorker {
         Set<Long> personIds = getAllPersonIdsWhereSendNotification();
 
         for (long personId: personIds) {
-            if (checkIfNotificationWasSend(personId)) {
-                continue;
-            }
-            sendNotification(personId);
+            processSendNotification(personId);
         }
+    }
+
+    private void processSendNotification(long personId) {
+        if (checkIfNotificationWasSend(personId)) {
+            return;
+        }
+        sendNotification(personId);
     }
 
     protected Set<Long> getAllPersonIdsWhereSendNotification() {
@@ -50,10 +54,10 @@ public class BookReservedToLongWorker {
     }
 
     protected String prepareMessage(Person person, List<BookReserved> bookReserves) {
-        String message = "Witaj "+ person.getFirstName() + " "+person.getLastName();
-        message += "Prosimy o zwrócenie poniższych książek.";
+        String message = "Witaj "+ person.getFirstName() + " "+person.getLastName()+"\n";
+        message += "Prosimy o zwrócenie poniższych książek.\n";
         for (BookReserved book : bookReserves) {
-            message += "- "+book.getBook().getBookInfo().getTitle();
+            message += "- "+book.getBook().getBookInfo().getTitle()+"\n";
         }
         message += "Pozdrawiamy Biblioteka";
         return message;
