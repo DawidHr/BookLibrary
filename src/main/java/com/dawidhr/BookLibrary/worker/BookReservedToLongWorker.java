@@ -1,9 +1,7 @@
 package com.dawidhr.BookLibrary.worker;
 
 import com.dawidhr.BookLibrary.dao.BookReservedDAO;
-import com.dawidhr.BookLibrary.dao.BookReservedDAOImpl;
 import com.dawidhr.BookLibrary.dao.PersonNotificationDAO;
-import com.dawidhr.BookLibrary.dao.PersonNotificationDAOImpl;
 import com.dawidhr.BookLibrary.model.BookReserved;
 import com.dawidhr.BookLibrary.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
