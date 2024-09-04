@@ -31,7 +31,7 @@
                 <td th:text="${book.bookStatus.name}"></td>
                 <td>
                     <a th:href="@{'/book/' + ${book.bookId}}"><button type="button" class="btn btn-info">Przeglądaj</button></a>
-                    <a th:href="@{'/book/' + ${book.bookId} + '/delete'}"><button type="button"  class="btn btn-danger">Kasuj</button></a>
+                    <a  th:if="${book.bookStatus.name == 'AVAILABLE'}" th:href="@{'/book/' + ${book.bookId} + '/delete'}"><button type="button"  class="btn btn-danger">Kasuj</button></a>
                 </td>
             </tr>
         </table>
