@@ -16,21 +16,21 @@
         <form th:object="${generalForm}" th:action="@{/settings/generalFormProcess}" method="post">
 
         <h2>General Settings</h2>
-        <div>
-            <p>Wysyłaj maile do osób które trzymają ksiązki za długo</p>
-            <input type="checkbox" name="notificationStatus" />
+        <div class="mb-3">
+            <input type="checkbox" name="notificationStatus" id="notificationStatus" />
+            <label for="notificationStatus" class="form-label">Wysyłaj maile do osób które trzymają ksiązki za długo</label>
         </div>
-        <div>
-            <p>Wysyłaj email nie częściej niż</p>
-            <select name="notificationRate">
+        <div class="mb-3">
+            <label for="notificationRate" class="form-label">Wysyłaj email nie częściej niż</label>
+            <select name="notificationRate" id="notificationRate">
                 <option value="7">7</option>
                 <option value="14">14</option>
                 <option value="21">21</option>
             </select>
         </div>
-        <div>
-            <p>Cena za każdy dzień przetrzymania książki dłużej niż 60 dni.</p>
-            <input type="text" name="price" />
+        <div class="mb-3">
+            <label for="price" class="form-label">Cena za każdy dzień przetrzymania książki dłużej niż 60 dni.</label>
+            <input type="text" id="price" name="price" />
         </div>
             <input type="submit" value="Zapisz" />
         </form>
