@@ -8,32 +8,43 @@
 <body>
 <div th:replace="nav :: nav">
 </div>
-<div>
-    <div>
-        <h2>Account Settings</h2>
-    </div>
-    <div>
-        <form th:object="${generalForm}" th:action="@{/settings/generalFormProcess}" method="post">
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col">
+            <h2>Account Settings</h2>
+        </div>
+        <div class="col">
+            <form th:object="${generalForm}" th:action="@{/settings/generalFormProcess}" method="post">
 
-        <h2>General Settings</h2>
-        <div class="mb-3">
-            <input type="checkbox" name="notificationStatus" id="notificationStatus" />
-            <label for="notificationStatus" class="form-label">Wysyłaj maile do osób które trzymają ksiązki za długo</label>
+                <h2>General Settings</h2>
+                <div class="mb-3">
+                    <input type="checkbox" name="notificationStatus" id="notificationStatus" />
+                    <label for="notificationStatus" class="form-label">Wysyłaj maile do osób które trzymają ksiązki za długo</label>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="notificationRate" class="form-label">Wysyłaj email nie częściej niż</label>
+                    </div>
+                    <div class="col">
+                        <select name="notificationRate" id="notificationRate"  style="width: 100%;">
+                            <option value="7">7</option>
+                            <option value="14">14</option>
+                            <option value="21">21</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="price" class="form-label">Cena za każdy dzień przetrzymania książki dłużej niż 60 dni.</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="price" name="price" style="width: 100%;" />
+                    </div>
+                </div>
+                <input type="submit" value="Zapisz" />
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="notificationRate" class="form-label">Wysyłaj email nie częściej niż</label>
-            <select name="notificationRate" id="notificationRate">
-                <option value="7">7</option>
-                <option value="14">14</option>
-                <option value="21">21</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="price" class="form-label">Cena za każdy dzień przetrzymania książki dłużej niż 60 dni.</label>
-            <input type="text" id="price" name="price" />
-        </div>
-            <input type="submit" value="Zapisz" />
-        </form>
+
     </div>
 </div>
 </body>
