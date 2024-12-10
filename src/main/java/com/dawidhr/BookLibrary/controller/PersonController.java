@@ -65,6 +65,8 @@ public class PersonController {
 
     @PostMapping("/person/processAddingPerson")
     public String processAddingPerson(@Valid @ModelAttribute Person person, BindingResult bindingResult) {
+        //TODO check if person exist
+        // Add more validations
         if (bindingResult.hasErrors()) {
             return "person/add.html";
         }
