@@ -63,4 +63,18 @@ public class Person {
     @JoinColumn(name = "book_reserved_history_id")
     private Set<BookReservedHistory> bookReservedHistories = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        return pesel != null ? pesel.equals(person.pesel) : person.pesel == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return pesel != null ? pesel.hashCode() : 0;
+    }
 }
