@@ -28,7 +28,12 @@ public class SettingController {
 
     @PostMapping("/settings/generalFormProcess")
     public String generalFormProcess(@RequestBody Settings generalForm) {
-        //TODO
+        Settings settings = settingsDAO.getSettings();
+        if(settings == null) {
+            settingsDAO.insertSettings(generalForm);
+        } else {
+            settingsDAO.updateSettings(generalForm);
+        }
         return "setting/main.html";
     }
 }
