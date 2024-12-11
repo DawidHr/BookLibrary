@@ -19,4 +19,19 @@ public class Settings {
     private boolean notificationStatus;
     private int notificationRate;
     private float price;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Settings settings = (Settings) o;
+
+        return settingsId == settings.settingsId;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (settingsId ^ (settingsId >>> 32));
+    }
 }
