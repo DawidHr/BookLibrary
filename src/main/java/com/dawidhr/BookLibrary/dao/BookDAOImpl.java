@@ -74,11 +74,10 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> getAllAvailableBooks(Pageable pageable) {
         int offset = (int) pageable.getOffset();
-        System.out.println("Offset = "+offset);
         TypedQuery<Book> query = entityManagerFactory.createEntityManager().createQuery("""
                 SELECT b FROM Book b WHERE b.isDeleted = False
                 """, Book.class);
-        query.setMaxResults(5);
+        query.setMaxResults(pageable.getPageSize());
         query.setFirstResult(offset);
         return query.getResultList();
     }

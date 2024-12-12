@@ -3,7 +3,6 @@ package com.dawidhr.BookLibrary.controller;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.model.BookStatus;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -11,10 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
@@ -23,25 +23,31 @@ public class BookController {
     @Autowired
     private BookDAO bookDAO;
     private static final Integer BOOK_PER_PAGE = 5;
+    private Integer[] listSizesAvailable = {2, 5, 10, 15, 20};
 
     @GetMapping("/books")
-    public String getAllBooks(Model model, HttpServletRequest request) {
-        int page = 0;
+    public String getAllBooks(Model model, @RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "5") Integer listSize, @RequestParam(required = false) String bookTitle) {
+        int productSizeList = BOOK_PER_PAGE;
         List<Integer> pagination = new ArrayList<>();
-        Map<String, String[]> parameters = request.getParameterMap();
-        if (parameters.containsKey("page")) {
-            page = Integer.valueOf(parameters.get("page")[0]);
+        if (isPageSizeAvailable(listSize)) {
+            productSizeList = listSize;
         }
-        String bookSearchTitle = request.getParameter("bookTitle");
+        String bookSearchTitle = bookTitle;
         if (StringUtils.hasText(bookSearchTitle)) {
             model.addAttribute("books", bookDAO.findBook(bookSearchTitle));
         } else {
-            preparePagination(pagination);
-            model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(page, BOOK_PER_PAGE)));
+            preparePagination(pagination, productSizeList);
+            model.addAttribute("books", bookDAO.getAllAvailableBooks(PageRequest.of(page, productSizeList)));
         }
 
         model.addAttribute("pagination", pagination);
+        model.addAttribute("listSize", listSize);
+        model.addAttribute("listSizeAvailable", listSizesAvailable);
         return "book/List.html";
+    }
+
+    private boolean isPageSizeAvailable(int listSize) {
+        return Arrays.stream(listSizesAvailable).anyMatch(page -> page.equals(listSize));
     }
 
     @GetMapping("/book/{id}")
@@ -68,10 +74,10 @@ public class BookController {
         return "redirect:/books";
     }
 
-    private void preparePagination(List<Integer> pagination) {
+    private void preparePagination(List<Integer> pagination, int listSize) {
         long bookSize = bookDAO.countAllAvailableBooks();
         if (bookSize>0) {
-            int pages = (int) Math.ceil((double)bookSize/(double)BOOK_PER_PAGE);
+            int pages = (int) Math.ceil((double)bookSize/(double)listSize);
             for(int i=0; i < pages; i++) {
                 pagination.add(i);
             }
