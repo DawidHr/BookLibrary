@@ -26,18 +26,23 @@ public class AuthorController {
     @Autowired
     private BookInfoDAOImpl bookInfoDAO;
     private static final Integer AUTHOR_PER_PAGE = 10;
+    private Integer[] listSizesAvailable = {2, 5, 10, 15, 20};
 
     @RequestMapping("/authors")
     public String getAllAuthors(Model model, HttpServletRequest request,
-                                @RequestParam(required = false, defaultValue = "0") Integer page) {
+                                @RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "5") Integer listSize,
+                                @RequestParam(required = false) String search) {
+        int productSizeList = AUTHOR_PER_PAGE;
         List<Long> pagination = new ArrayList<>();
-        Map<String, String[]> parameters = request.getParameterMap();
-        String searchAuthor = request.getParameter("searchAuthor");
+        if (isPageSizeAvailable(listSize)) {
+            productSizeList = listSize;
+        }
+        String searchAuthor = search;
         if (StringUtils.hasText(searchAuthor)) {
             model.addAttribute("authors", authorDAO.findAuthor(searchAuthor));
         } else {
-            model.addAttribute("authors", authorDAO.getAllAuthors(PageRequest.of(page, AUTHOR_PER_PAGE)));
-            preparePagination(pagination);
+            model.addAttribute("authors", authorDAO.getAllAuthors(PageRequest.of(page, productSizeList)));
+            preparePagination(pagination, productSizeList);
         }
         model.addAttribute("pagination", pagination);
         return "author/list.html";
@@ -114,10 +119,10 @@ public class AuthorController {
     }
 
 
-    private void preparePagination(List<Long> pagination) {
+    private void preparePagination(List<Long> pagination, Integer listSize) {
         long bookSize = authorDAO.count();
         if (bookSize>0) {
-            long pages = (long) Math.ceil((double)bookSize/(double)AUTHOR_PER_PAGE);
+            long pages = (long) Math.ceil((double)bookSize/(double)listSize);
             for(long i=0; i < pages; i++) {
                 pagination.add(i);
             }
@@ -130,5 +135,9 @@ public class AuthorController {
         model.addAttribute("status", Arrays.stream(BookStatus.values()).toList());
         model.addAttribute("authorId", authorId);
         return "/book/add2.html";
+    }
+
+    private boolean isPageSizeAvailable(int listSize) {
+        return Arrays.stream(listSizesAvailable).anyMatch(page -> page.equals(listSize));
     }
 }
