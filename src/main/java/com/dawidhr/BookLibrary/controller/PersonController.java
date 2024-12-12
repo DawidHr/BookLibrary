@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,10 @@ public class PersonController {
     private static final Integer PERSON_PER_PAGE = 5;
 
     @GetMapping("/persons")
-    public String getAllPersons(Model model, HttpServletRequest request) {
-        Integer page = 0;
+    public String getAllPersons(Model model, HttpServletRequest request,
+                                @RequestParam(required = false, defaultValue = "0") Integer page) {
         List<Integer> pagination = new ArrayList<>();
         Map<String, String[]> parameters = request.getParameterMap();
-        if (parameters.containsKey("page")) {
-            page = Integer.valueOf(parameters.get("page")[0]);
-        }
         model.addAttribute("persons", personDAO.getAll(PageRequest.of(page, PERSON_PER_PAGE)));
         preparePagination(pagination);
         model.addAttribute("pagination", pagination);
