@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,17 +34,23 @@ public class PersonController {
     private Integer[] listSizesAvailable = {2, 5, 10, 15, 20};
 
     @GetMapping("/persons")
-    public String getAllPersons(Model model, HttpServletRequest request,
+    public String getAllPersons(Model model,
                                 @RequestParam(required = false, defaultValue = "0") Integer page,
-                                @RequestParam(required = false, defaultValue = "5") Integer listSize) {
+                                @RequestParam(required = false, defaultValue = "5") Integer listSize,
+                                @RequestParam(required = false) String search) {
         int productSizeList = PERSON_PER_PAGE;
         List<Integer> pagination = new ArrayList<>();
         if (isPageSizeAvailable(listSize)) {
             productSizeList = listSize;
         }
-        Map<String, String[]> parameters = request.getParameterMap();
-        model.addAttribute("persons", personDAO.getAll(PageRequest.of(page, productSizeList)));
-        preparePagination(pagination, productSizeList);
+        String searchPerson = search;
+        if (StringUtils.hasText(searchPerson)) {
+            //TO DO
+            // ADD SEARCH
+        } else {
+            preparePagination(pagination, productSizeList);
+            model.addAttribute("persons", personDAO.getAll(PageRequest.of(page, productSizeList)));
+        }
         model.addAttribute("pagination", pagination);
         return "person/list.html";
     }
