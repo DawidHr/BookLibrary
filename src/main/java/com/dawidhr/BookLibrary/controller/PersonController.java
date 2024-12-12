@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class PersonController {
@@ -33,22 +30,32 @@ public class PersonController {
     @Autowired
     private BookReservedDAO bookReservedDAO;
     private static final Integer PERSON_PER_PAGE = 5;
+    private Integer[] listSizesAvailable = {2, 5, 10, 15, 20};
 
     @GetMapping("/persons")
     public String getAllPersons(Model model, HttpServletRequest request,
-                                @RequestParam(required = false, defaultValue = "0") Integer page) {
+                                @RequestParam(required = false, defaultValue = "0") Integer page,
+                                @RequestParam(required = false, defaultValue = "5") Integer listSize) {
+        int productSizeList = PERSON_PER_PAGE;
         List<Integer> pagination = new ArrayList<>();
+        if (isPageSizeAvailable(listSize)) {
+            productSizeList = listSize;
+        }
         Map<String, String[]> parameters = request.getParameterMap();
-        model.addAttribute("persons", personDAO.getAll(PageRequest.of(page, PERSON_PER_PAGE)));
-        preparePagination(pagination);
+        model.addAttribute("persons", personDAO.getAll(PageRequest.of(page, productSizeList)));
+        preparePagination(pagination, productSizeList);
         model.addAttribute("pagination", pagination);
         return "person/list.html";
     }
 
-    private void preparePagination(List<Integer> pagination) {
+    private boolean isPageSizeAvailable(int listSize) {
+        return Arrays.stream(listSizesAvailable).anyMatch(page -> page.equals(listSize));
+    }
+
+    private void preparePagination(List<Integer> pagination, Integer productSizeList) {
         int bookSize = personDAO.count();
         if (bookSize>0) {
-            int pages = (int) Math.ceil(bookSize/PERSON_PER_PAGE);
+            int pages = (int) Math.ceil(bookSize/productSizeList);
             for(int i=0; i < pages; i++) {
                 pagination.add(i);
             }
