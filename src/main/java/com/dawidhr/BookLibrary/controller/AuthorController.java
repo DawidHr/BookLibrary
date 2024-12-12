@@ -28,13 +28,10 @@ public class AuthorController {
     private static final Integer AUTHOR_PER_PAGE = 10;
 
     @RequestMapping("/authors")
-    public String getAllAuthors(Model model, HttpServletRequest request) {
-        Integer page = 0;
+    public String getAllAuthors(Model model, HttpServletRequest request,
+                                @RequestParam(required = false, defaultValue = "0") Integer page) {
         List<Long> pagination = new ArrayList<>();
         Map<String, String[]> parameters = request.getParameterMap();
-        if (parameters.containsKey("page")) {
-            page = Integer.valueOf(parameters.get("page")[0]);
-        }
         String searchAuthor = request.getParameter("searchAuthor");
         if (StringUtils.hasText(searchAuthor)) {
             model.addAttribute("authors", authorDAO.findAuthor(searchAuthor));
