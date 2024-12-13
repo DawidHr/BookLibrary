@@ -4,6 +4,7 @@ package com.dawidhr.BookLibrary.controller;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.dao.BookReservedDAO;
 import com.dawidhr.BookLibrary.dao.PersonDAO;
+import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -30,43 +31,29 @@ public class PersonController {
     private BookDAO bookDAO;
     @Autowired
     private BookReservedDAO bookReservedDAO;
-    private static final Integer PERSON_PER_PAGE = 5;
-    private Integer[] listSizesAvailable = {2, 5, 10, 15, 20};
 
     @GetMapping("/persons")
     public String getAllPersons(Model model,
                                 @RequestParam(required = false, defaultValue = "0") Integer page,
                                 @RequestParam(required = false, defaultValue = "5") Integer listSize,
                                 @RequestParam(required = false) String search) {
-        int productSizeList = PERSON_PER_PAGE;
-        List<Integer> pagination = new ArrayList<>();
-        if (isPageSizeAvailable(listSize)) {
+        int productSizeList = ProductListPage.DEFAULT_PER_PAGE;
+        List<Long> pagination = new ArrayList<>();
+        if (ProductListPage.isPageSizeAvailable(listSize)) {
             productSizeList = listSize;
         }
-        String searchPerson = search;
-        if (StringUtils.hasText(searchPerson)) {
+        if (StringUtils.hasText(search)) {
             //TO DO
             // ADD SEARCH
         } else {
-            preparePagination(pagination, productSizeList);
+            int bookSize = personDAO.count();
+            pagination = ProductListPage.preparePagination(bookSize, productSizeList);
             model.addAttribute("persons", personDAO.getAll(PageRequest.of(page, productSizeList)));
         }
         model.addAttribute("pagination", pagination);
+        model.addAttribute("listSize", listSize);
+        model.addAttribute("listSizeAvailable", ProductListPage.listSizesAvailable);
         return "person/list.html";
-    }
-
-    private boolean isPageSizeAvailable(int listSize) {
-        return Arrays.stream(listSizesAvailable).anyMatch(page -> page.equals(listSize));
-    }
-
-    private void preparePagination(List<Integer> pagination, Integer productSizeList) {
-        int bookSize = personDAO.count();
-        if (bookSize>0) {
-            int pages = (int) Math.ceil(bookSize/productSizeList);
-            for(int i=0; i < pages; i++) {
-                pagination.add(i);
-            }
-        }
     }
 
     @GetMapping("/person/add")

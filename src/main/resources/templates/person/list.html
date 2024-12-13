@@ -38,7 +38,7 @@
     <div>
         <ul  class="pagination justify-content-center">
             <li class="page-item" th:each="page : ${pagination}">
-                <a class="page-link" th:href="@{'persons?page=' + ${page}}" th:text="${page}"></a>
+                <a class="page-link" th:href="@{'persons?page=' + ${page} + '&pageSize=' + ${pageSize}}" th:text="${page}"></a>
             </li>
         </ul>
     </div>
