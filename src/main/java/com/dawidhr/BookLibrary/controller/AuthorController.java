@@ -45,6 +45,8 @@ public class AuthorController {
             model.addAttribute("authors", authorDAO.getAllAuthors(PageRequest.of(page, productSizeList)));
         }
         model.addAttribute("pagination", pagination);
+        model.addAttribute("listSize", listSize);
+        model.addAttribute("listSizeAvailable", ProductListPage.listSizesAvailable);
         return "author/list.html";
     }
 
