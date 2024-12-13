@@ -13,11 +13,11 @@ public class ProductListPage {
         return Arrays.asList(listSizesAvailable).contains(listSize);
     }
 
-    public static List<Integer> preparePagination(long productsCount, long productSizeList) {
-        List<Integer> pagination = new LinkedList<>();
+    public static List<Long> preparePagination(long productsCount, long productSizeList) {
+        List<Long> pagination = new LinkedList<>();
         if (productsCount>0) {
-            int pages = (int) Math.ceil((double) productsCount/ (double) productSizeList);
-            for(int i=0; i < pages; i++) {
+            long pages = (long) Math.ceil((double) productsCount/ (double) productSizeList);
+            for(long i=0; i < pages; i++) {
                 pagination.add(i);
             }
         }

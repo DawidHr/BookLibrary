@@ -26,7 +26,7 @@ public class BookController {
     @GetMapping("/books")
     public String getAllBooks(Model model, @RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "5") Integer listSize, @RequestParam(required = false) String bookTitle) {
         int productSizeList = ProductListPage.DEFAULT_PER_PAGE;
-        List<Integer> pagination = new LinkedList<>();
+        List<Long> pagination = new LinkedList<>();
         if (ProductListPage.isPageSizeAvailable(listSize)) {
             productSizeList = listSize;
         }
