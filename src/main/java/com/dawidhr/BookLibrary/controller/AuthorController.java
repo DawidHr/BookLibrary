@@ -3,6 +3,7 @@ package com.dawidhr.BookLibrary.controller;
 import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.dao.BookInfoDAOImpl;
+import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.*;
 import com.dawidhr.BookLibrary.model.simple.BookAddModel;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,24 +26,23 @@ public class AuthorController {
     private BookDAO bookDAO;
     @Autowired
     private BookInfoDAOImpl bookInfoDAO;
-    private static final Integer AUTHOR_PER_PAGE = 10;
-    private Integer[] listSizesAvailable = {2, 5, 10, 15, 20};
 
     @RequestMapping("/authors")
-    public String getAllAuthors(Model model, HttpServletRequest request,
-                                @RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "5") Integer listSize,
+    public String getAllAuthors(Model model,
+                                @RequestParam(required = false, defaultValue = "0") Integer page,
+                                @RequestParam(required = false, defaultValue = "5") Integer listSize,
                                 @RequestParam(required = false) String search) {
-        int productSizeList = AUTHOR_PER_PAGE;
+        int productSizeList = ProductListPage.DEFAULT_PER_PAGE;;
         List<Long> pagination = new ArrayList<>();
-        if (isPageSizeAvailable(listSize)) {
+        if (ProductListPage.isPageSizeAvailable(listSize)) {
             productSizeList = listSize;
         }
-        String searchAuthor = search;
-        if (StringUtils.hasText(searchAuthor)) {
-            model.addAttribute("authors", authorDAO.findAuthor(searchAuthor));
+        if (StringUtils.hasText(search)) {
+            model.addAttribute("authors", authorDAO.findAuthor(search));
         } else {
+            long bookSize = authorDAO.count();
+            pagination = ProductListPage.preparePagination(bookSize, productSizeList);
             model.addAttribute("authors", authorDAO.getAllAuthors(PageRequest.of(page, productSizeList)));
-            preparePagination(pagination, productSizeList);
         }
         model.addAttribute("pagination", pagination);
         return "author/list.html";
@@ -118,17 +118,6 @@ public class AuthorController {
         return "redirect:/error.html";
     }
 
-
-    private void preparePagination(List<Long> pagination, Integer listSize) {
-        long bookSize = authorDAO.count();
-        if (bookSize>0) {
-            long pages = (long) Math.ceil((double)bookSize/(double)listSize);
-            for(long i=0; i < pages; i++) {
-                pagination.add(i);
-            }
-        }
-    }
-
     private String prepareAddingView(Model model, long authorId) {
         model.addAttribute("book", new BookAddModel());
         model.addAttribute("category", Arrays.stream(BookCategory.values()).toList());
@@ -137,7 +126,4 @@ public class AuthorController {
         return "/book/add2.html";
     }
 
-    private boolean isPageSizeAvailable(int listSize) {
-        return Arrays.stream(listSizesAvailable).anyMatch(page -> page.equals(listSize));
-    }
 }
