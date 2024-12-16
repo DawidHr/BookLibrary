@@ -73,9 +73,16 @@ public class AuthorController {
         if (bindingResult.hasErrors()) {
             return "author/add.html";
         }
-        //Dodaj sprawdzanie czy taki autor już nie istnieje
+        if(isAuthorExistsInDB(author)) {
+            return "redirect:/authors";
+        }
         authorDAO.insertAuthor(author);
         return "redirect:/authors";
+    }
+
+    private boolean isAuthorExistsInDB(Author author) {
+        Author authorFromDb = authorDAO.findAuthor(author);
+        return authorFromDb != null;
     }
 
     @GetMapping("/author/{id}/edit")

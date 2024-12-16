@@ -53,6 +53,16 @@ public class AuthorDAOImpl implements AuthorDAO {
     }
 
     @Override
+    public Author findAuthor(Author author) {
+        TypedQuery<Author> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT b FROM Author b WHERE b.lastName = :lastName AND b.firstName = :firstName 
+                """, Author.class);
+        query.setParameter("firstName", author.getFirstName());
+        query.setParameter("lastName", author.getLastName());
+        return query.getSingleResult();
+    }
+
+    @Override
     public long countAddedAuthorInLast30Days() {
         TypedQuery<Long> query = entityManagerFactory.createEntityManager().createQuery("""
                 SELECT COUNT(b) FROM Author b WHERE b.creationDate > :last30days 

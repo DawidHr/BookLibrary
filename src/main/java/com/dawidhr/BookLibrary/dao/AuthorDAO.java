@@ -13,6 +13,7 @@ public interface AuthorDAO {
     Page<Author> getAllAuthors(Pageable pageable);
     long count();
     List<Author> findAuthor(String find);
+    Author findAuthor(Author author);
     long countAddedAuthorInLast30Days();
     Optional<Author> findById(Long id);
 }
