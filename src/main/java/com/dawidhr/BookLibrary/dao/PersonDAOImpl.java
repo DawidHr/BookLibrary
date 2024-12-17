@@ -1,5 +1,6 @@
 package com.dawidhr.BookLibrary.dao;
 
+import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.model.Person;
 import com.dawidhr.BookLibrary.repository.PersonRepository;
 import jakarta.persistence.EntityManagerFactory;
@@ -59,5 +60,14 @@ public class PersonDAOImpl implements PersonDAO {
                 """, Long.class);
         query.setParameter("last30days",new Timestamp(System.currentTimeMillis()).toLocalDateTime().minusMonths(1));
         return query.getSingleResult();
+    }
+
+    @Override
+    public List<Person> findPerson(String search) {
+        TypedQuery<Person> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT p FROM Person p WHERE p.firstName like :search or p.lastName like :search or p.pesel like :search 
+                """, Person.class);
+        query.setParameter("search", "%"+search+"%");
+        return query.getResultList();
     }
 }
