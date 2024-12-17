@@ -43,8 +43,7 @@ public class PersonController {
             productSizeList = listSize;
         }
         if (StringUtils.hasText(search)) {
-            //TO DO
-            // ADD SEARCH
+            model.addAttribute("persons", personDAO.findPerson(search));
         } else {
             int bookSize = personDAO.count();
             pagination = ProductListPage.preparePagination(bookSize, productSizeList);
