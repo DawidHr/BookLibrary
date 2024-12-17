@@ -9,8 +9,8 @@
 <div th:replace="nav :: nav">
 </div>
 <div style="margin: 20px;">
-    <form th:action="@{/person/findPerson}" method="post">
-        <input type="text" name="personSearch" style="width: 80%;" />
+    <form th:action="@{/persons}" method="get">
+        <input type="text" name="search" style="width: 80%;" />
         <input type="submit" value="Znajdź" style="width: 19%;">
     </form>
 </div>
