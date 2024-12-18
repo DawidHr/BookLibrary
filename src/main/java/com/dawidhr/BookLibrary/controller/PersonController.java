@@ -6,7 +6,6 @@ import com.dawidhr.BookLibrary.dao.BookReservedDAO;
 import com.dawidhr.BookLibrary.dao.PersonDAO;
 import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.*;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 public class PersonController {
