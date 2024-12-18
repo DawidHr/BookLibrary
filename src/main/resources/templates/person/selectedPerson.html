@@ -43,7 +43,7 @@
             </tr>
         </table>
     </div>
-    <div style="position: absolute;width: 100%;top: 100%;">
+    <div style="position: absolute;width: 100%;top: 100%;" th:if="${isReservedView}">
         <div style="margin: 20px;">
             <form th:action="@{/person/1/reserve}" method="get">
                 <input type="text" name="bookTitle" style="width: 80%;" />

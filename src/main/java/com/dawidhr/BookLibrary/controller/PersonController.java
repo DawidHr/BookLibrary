@@ -77,6 +77,7 @@ public class PersonController {
         Person person = personDAO.getById(id);
         if (person != null) {
             model.addAttribute(person);
+            model.addAttribute("isReservedView", false);
             return "person/selectedPerson.html";
         }
         return "redirect:/error.html";
@@ -88,6 +89,7 @@ public class PersonController {
         if (person != null) {
             String searchTitle = request.getParameter("bookTitle");
             model.addAttribute("person", person);
+            model.addAttribute("isReservedView", true);
             if (searchTitle != null) {
                 model.addAttribute("books", bookDAO.findBook(searchTitle));
             } else {
