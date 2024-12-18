@@ -6,7 +6,6 @@ import com.dawidhr.BookLibrary.dao.BookInfoDAOImpl;
 import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.*;
 import com.dawidhr.BookLibrary.model.simple.BookAddModel;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +31,7 @@ public class AuthorController {
                                 @RequestParam(required = false, defaultValue = "0") Integer page,
                                 @RequestParam(required = false, defaultValue = "5") Integer listSize,
                                 @RequestParam(required = false) String search) {
-        int productSizeList = ProductListPage.DEFAULT_PER_PAGE;;
+        int productSizeList = ProductListPage.DEFAULT_PER_PAGE;
         List<Long> pagination = new ArrayList<>();
         if (ProductListPage.isPageSizeAvailable(listSize)) {
             productSizeList = listSize;
@@ -86,7 +85,7 @@ public class AuthorController {
     }
 
     @GetMapping("/author/{id}/edit")
-    public String editSelectedAuthor(@PathVariable Long id, Model model,HttpServletRequest request) {
+    public String editSelectedAuthor(@PathVariable Long id, Model model) {
         Optional<Author> author = authorDAO.findById(id);
         if (author.isPresent()) {
             model.addAttribute("author",author.get());
