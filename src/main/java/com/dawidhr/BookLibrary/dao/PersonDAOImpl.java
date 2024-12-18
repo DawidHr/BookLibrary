@@ -70,4 +70,15 @@ public class PersonDAOImpl implements PersonDAO {
         query.setParameter("search", "%"+search+"%");
         return query.getResultList();
     }
+
+    @Override
+    public Person find(Person person) {
+        TypedQuery<Person> query = entityManagerFactory.createEntityManager().createQuery("""
+                SELECT p FROM Person p WHERE p.firstName like :firstName or p.lastName like :lastName or p.pesel like :pesel 
+                """, Person.class);
+        query.setParameter("firstName", person.getFirstName());
+        query.setParameter("lastName", person.getLastName());
+        query.setParameter("pesel", person.getPesel());
+        return query.getSingleResult();
+    }
 }

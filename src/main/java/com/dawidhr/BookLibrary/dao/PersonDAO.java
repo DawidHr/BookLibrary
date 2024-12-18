@@ -16,4 +16,5 @@ public interface PersonDAO {
     int count();
     long countPersonRegisteredInLast30Days();
     List<Person> findPerson(String search);
+    Person find(Person person);
 }
