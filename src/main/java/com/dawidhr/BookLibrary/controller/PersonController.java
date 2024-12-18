@@ -84,13 +84,13 @@ public class PersonController {
     }
 
     @GetMapping("/person/{id}/reserve")
-    public String reserve(@PathVariable("id") long id, Model model, HttpServletRequest request) {
+    public String reserve(@PathVariable("id") long id, Model model,
+                          @RequestParam(required = false) String searchTitle) {
         Person person = personDAO.getById(id);
         if (person != null) {
-            String searchTitle = request.getParameter("bookTitle");
             model.addAttribute("person", person);
             model.addAttribute("isReservedView", true);
-            if (searchTitle != null) {
+            if (StringUtils.hasText(searchTitle)) {
                 model.addAttribute("books", bookDAO.findBook(searchTitle));
             } else {
                 model.addAttribute("books", bookDAO.getAllAvailableNotDeletedBooks(PageRequest.of(0, 50)));
