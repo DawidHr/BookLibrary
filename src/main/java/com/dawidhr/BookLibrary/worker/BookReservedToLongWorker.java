@@ -22,8 +22,8 @@ public class BookReservedToLongWorker {
     }
 
     public void process() {
+        // TODO checkIf Worker is enabled and get config for this worker
         Set<Long> personIds = getAllPersonIdsWhereSendNotification();
-
         for (long personId: personIds) {
             processSendNotification(personId);
         }
@@ -54,6 +54,7 @@ public class BookReservedToLongWorker {
     }
 
     protected String prepareMessage(Person person, List<BookReserved> bookReserves) {
+        //TODO change message
         String message = "Witaj "+ person.getFirstName() + " "+person.getLastName()+"\n";
         message += "Prosimy o zwrócenie poniższych książek.\n";
         for (BookReserved book : bookReserves) {

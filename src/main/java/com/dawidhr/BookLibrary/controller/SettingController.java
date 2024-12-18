@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-
 public class SettingController {
 
     @Autowired
@@ -28,6 +27,7 @@ public class SettingController {
 
     @PostMapping("/settings/generalFormProcess")
     public String generalFormProcess(@RequestBody Settings generalForm) {
+        //TODO add validation for Settings
         Settings settings = settingsDAO.getSettings();
         if(settings == null) {
             settingsDAO.insertSettings(generalForm);
