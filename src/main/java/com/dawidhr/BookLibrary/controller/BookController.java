@@ -3,7 +3,7 @@ package com.dawidhr.BookLibrary.controller;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.Book;
-import com.dawidhr.BookLibrary.model.BookStatus;
+import com.dawidhr.BookLibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,8 @@ public class BookController {
 
     @Autowired
     private BookDAO bookDAO;
+    @Autowired
+    BookService bookService;
 
     @GetMapping("/books")
     public String getAllBooks(Model model, @RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "5") Integer listSize, @RequestParam(required = false) String bookTitle) {
@@ -46,7 +48,7 @@ public class BookController {
 
     @GetMapping("/book/{id}")
     public String getSelectedBook(@PathVariable Long id, Model model) {
-        Optional<Book> book = bookDAO.findById(id);
+        Optional<Book> book = bookService.findBookById(id);
         if (book.isPresent()) {
             model.addAttribute("book",book.get());
             return "book/selectedBook.html";
@@ -56,15 +58,8 @@ public class BookController {
     }
 
     @GetMapping("/book/{id}/delete")
-    public String processAddingBook(@PathVariable Long id) {
-        Optional<Book> optionalBook = bookDAO.findById(id);
-        if (optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-            if (BookStatus.AVAILABLE.equals(book.getBookStatus())) {
-                book.setDeleted(true);
-                bookDAO.insertBook(book);
-            }
-        }
+    public String deleteBook(@PathVariable Long id) {
+        bookService.deleteBookById(id);
         return "redirect:/books";
     }
 }
