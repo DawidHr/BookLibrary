@@ -24,4 +24,8 @@ public class BookRedisCache extends RedisCache {
     private String prepareKey(Long id) {
         return KEY+"_"+VERSION+"_"+id;
     }
+
+    public void removeBookById(Long bookId) {
+        jedis.unlink(prepareKey(bookId));
+    }
 }
