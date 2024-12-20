@@ -1,10 +1,14 @@
 package com.dawidhr.BookLibrary.cache;
 
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.UnifiedJedis;
 
 public class RedisCache {
-    UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
-    private static final long TIME_TO_EXPIRE_IN_SECOND = 360;
+    @Autowired
+    protected Gson gson;
+    protected UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+    protected static final long TIME_TO_EXPIRE_IN_SECOND = 360;
 
     public void addToCache(String key, String value) {
         jedis.setex(key, TIME_TO_EXPIRE_IN_SECOND, value);
