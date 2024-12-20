@@ -10,3 +10,6 @@ services:
     volumes:
       - "./sql/baza.sql:/docker-entrypoint-initdb.d/1.sql"
       - "./sql/:/test/"
+  cache:
+    image: "redis:7.4.1"
+    container_name: "redis"
