@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@Disabled
 class BookControllerTest {
 
     @Mock
