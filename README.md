@@ -9,7 +9,8 @@ Technology:
 - Docker Compose
 - Junit
 - Mockito
+- Redis
 
 Technology plan
-- Redis
+
 - Kafka
