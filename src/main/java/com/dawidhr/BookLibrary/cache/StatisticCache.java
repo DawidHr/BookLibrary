@@ -2,7 +2,9 @@ package com.dawidhr.BookLibrary.cache;
 
 
 import com.dawidhr.BookLibrary.model.dashboard.StatisticType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StatisticCache extends RedisCache {
     private static final String KEY = "redis_statistic";
     private static final String VERSION = "1.0.0";
