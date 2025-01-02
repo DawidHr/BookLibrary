@@ -1,6 +1,5 @@
 package com.dawidhr.BookLibrary.cache;
 
-import com.dawidhr.BookLibrary.model.Book;
 import com.dawidhr.BookLibrary.model.dashboard.AuthorDashboard;
 import com.dawidhr.BookLibrary.model.dashboard.BookDashboard;
 import com.dawidhr.BookLibrary.model.dashboard.BookReservedDashboard;
@@ -31,11 +30,11 @@ public class StatisticCache extends RedisCache {
         jedis.setex(prepareKey(bookDashboard), TIME_TO_EXPIRE_IN_SECOND, gson.toJson(bookDashboard));
     }
 
-    public BookDashboard getAuthorDashboard(BookDashboard bookDashboard) {
+    public BookDashboard getBookDashboard(BookDashboard bookDashboard) {
         return gson.fromJson(jedis.get(prepareKey(bookDashboard)), BookDashboard.class);
     }
 
-    public void removeAuthorDashboard(BookDashboard bookDashboard) {
+    public void removeBookDashboard(BookDashboard bookDashboard) {
         jedis.unlink(prepareKey(bookDashboard));
     }
 
