@@ -69,4 +69,20 @@ public class StatisticService {
         cache.addObject(StatisticType.BOOK_RESERVED_DASHBOARD, bookReservedDashboard);
         return bookReservedDashboard;
     }
+
+    public void removeAuthorDashboard() {
+        cache.removeObject(StatisticType.AUTHOR_DASHBOARD);
+    }
+
+    public void removePersonDashboard() {
+        cache.removeObject(StatisticType.PERSON_DASHBOARD);
+    }
+
+    public void removeBookDashboard() {
+        cache.removeObject(StatisticType.BOOK_DASHBOARD);
+    }
+
+    public void removeBookReservedDashboard() {
+        cache.removeObject(StatisticType.BOOK_RESERVED_DASHBOARD);
+    }
 }
