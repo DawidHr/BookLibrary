@@ -1,11 +1,13 @@
 package com.dawidhr.BookLibrary.controller;
 
 
+import com.dawidhr.BookLibrary.cache.StatisticCache;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.dao.BookReservedDAO;
 import com.dawidhr.BookLibrary.dao.PersonDAO;
 import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.*;
+import com.dawidhr.BookLibrary.model.dashboard.StatisticType;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,8 @@ public class PersonController {
     private BookDAO bookDAO;
     @Autowired
     private BookReservedDAO bookReservedDAO;
+    @Autowired
+    private StatisticCache statisticCache;
 
     @GetMapping("/persons")
     public String getAllPersons(Model model,
@@ -74,6 +78,7 @@ public class PersonController {
             return "person/add.html";
         }
         personDAO.insert(person);
+        statisticCache.removeObject(StatisticType.PERSON_DASHBOARD);
         return "redirect:/persons";
     }
 
