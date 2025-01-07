@@ -1,10 +1,13 @@
 package com.dawidhr.BookLibrary.controller;
 
+import com.dawidhr.BookLibrary.cache.RedisCache;
+import com.dawidhr.BookLibrary.cache.StatisticCache;
 import com.dawidhr.BookLibrary.dao.AuthorDAO;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.dao.BookInfoDAOImpl;
 import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.*;
+import com.dawidhr.BookLibrary.model.dashboard.StatisticType;
 import com.dawidhr.BookLibrary.model.simple.BookAddModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,8 @@ public class AuthorController {
     private BookDAO bookDAO;
     @Autowired
     private BookInfoDAOImpl bookInfoDAO;
+    @Autowired
+    private StatisticCache statisticCache;
 
     @RequestMapping("/authors")
     public String getAllAuthors(Model model,
@@ -76,6 +81,7 @@ public class AuthorController {
             return "redirect:/authors";
         }
         authorDAO.insertAuthor(author);
+        statisticCache.removeObject(StatisticType.AUTHOR_DASHBOARD);
         return "redirect:/authors";
     }
 
@@ -121,6 +127,7 @@ public class AuthorController {
             Author author1 = author.get();
             author1.addBook(bookInfo);
             authorDAO.insertAuthor(author1);
+            statisticCache.removeObject(StatisticType.AUTHOR_DASHBOARD);
             return "redirect:/author/"+authorId;
         }
         return "redirect:/error.html";
