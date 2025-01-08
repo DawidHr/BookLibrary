@@ -3,6 +3,7 @@ package com.dawidhr.BookLibrary.cache;
 
 import com.dawidhr.BookLibrary.model.dashboard.StatisticType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class StatisticCache extends RedisCache {
@@ -19,7 +20,11 @@ public class StatisticCache extends RedisCache {
     }
 
     public Object getObject(StatisticType type) {
-        return gson.fromJson(jedis.get(prepareKey(type)), type.getObject().getClass());
+        String returnObject = jedis.get(prepareKey(type));
+        if (StringUtils.hasText(returnObject)) {
+            return gson.fromJson(returnObject, ((Class) type.getObject()));
+        }
+        return null;
     }
 
     public void removeObject(StatisticType type) {
@@ -27,6 +32,6 @@ public class StatisticCache extends RedisCache {
     }
 
     private String prepareKey(StatisticType type) {
-        return KEY+"_"+type.getTitle()+"_"+VERSION;
+        return KEY + "_" + type.getTitle() + "_" + VERSION;
     }
 }
