@@ -1,5 +1,6 @@
 package com.dawidhr.BookLibrary.controller;
 
+import com.dawidhr.BookLibrary.cache.BookRedisCache;
 import com.dawidhr.BookLibrary.dao.BookDAO;
 import com.dawidhr.BookLibrary.helper.ProductListPage;
 import com.dawidhr.BookLibrary.model.Book;
@@ -24,6 +25,8 @@ public class BookController {
     private BookDAO bookDAO;
     @Autowired
     BookService bookService;
+    @Autowired
+    BookRedisCache cache;
 
     @GetMapping("/books")
     public String getAllBooks(Model model, @RequestParam(required = false, defaultValue = "0") Integer page, @RequestParam(required = false, defaultValue = "5") Integer listSize, @RequestParam(required = false) String bookTitle) {
@@ -60,6 +63,7 @@ public class BookController {
     @GetMapping("/book/{id}/delete")
     public String deleteBook(@PathVariable Long id) {
         bookService.deleteBookById(id);
+        cache.removeBookById(id);
         return "redirect:/books";
     }
 }
